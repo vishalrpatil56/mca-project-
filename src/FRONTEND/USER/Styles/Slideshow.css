@@ -1,0 +1,273 @@
+.slideshow-container {
+    
+    max-width: 1350px;
+    
+    margin: auto;
+  }
+  
+  .custom-swiper {
+    margin-top: 1%;
+    width: 120% 120%;
+    height: 500px; /* Adjust height here */
+  }
+  
+  .custom-slide {
+    position: relative;
+    width:  100% 110%;
+    height: px; /* Adjust height here */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .slide-image {
+    width: 100%;
+    height:500px;
+    border-radius: 10px;
+    object-fit: cover;
+  }
+  
+  .slide-text {
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    background: rgba(255, 255, 255, 0.7);
+    padding: 10px 20px;
+    border-radius: 8px;
+  }
+  .category-card {
+    width: 220px;
+    height: 220px;
+    background: #f5f5f5;
+    border-radius: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    margin: auto;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .category-card:hover {
+    transform: scale(1.1);
+  }
+  
+  .category-img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+  
+  .subcategory-list {
+    list-style: none;
+    padding: 0;
+    font-size: 14px;
+    color: gray;
+  }
+  
+  .subcategory-list li {
+    line-height: 1.5;
+  }
+
+
+
+
+  /* SUPPORT SECTION */
+.support-section {
+  background: linear-gradient(145deg, #ffffff, #e6e6e6);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1), -5px -5px 15px rgba(255, 255, 255, 0.7);
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.support-section:hover {
+  box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.15), -8px -8px 20px rgba(255, 255, 255, 0.9);
+}
+
+/* TITLE STYLING */
+.support-title {
+  font-size: 40px;
+  font-weight: bold;
+  color: #222;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+/* BUTTONS */
+.support-btn {
+  width: 100%;
+  padding: 14px;
+  font-size: 18px;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Glowing Effect */
+.support-btn::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(161, 128, 128, 0.5), transparent);
+  transition: all 0.5s ease-in-out;
+  opacity: 0;
+}
+
+.support-btn:hover::before {
+  opacity: 1;
+  transform: scale(1.5);
+}
+
+/* Complaint Button */
+.complaint-btn {
+  background: #ff4d4d;
+  color: white;
+  box-shadow: 0px 0px 10px rgba(255, 77, 77, 0.6);
+}
+
+.complaint-btn:hover {
+  background: #d43d3d;
+  box-shadow: 0px 0px 15px rgba(255, 77, 77, 1);
+}
+
+/* Feedback Button */
+.feedback-btn {
+  background: #00cc66;
+  color: white;
+  box-shadow: 0px 0px 10px rgba(0, 255, 128, 0.6);
+}
+
+.feedback-btn:hover {
+  background: #00994d;
+  box-shadow: 0px 0px 15px rgba(0, 204, 102, 1);
+}
+
+
+
+  .fade-in {
+    animation: fadeIn 1.5s ease-in-out;
+  }
+  
+  .zoom-in {
+    animation: zoomIn 2s ease-in-out;
+  }
+  
+  .slide-up {
+    animation: slideUp 2s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 4; }
+  }
+  
+  @keyframes zoomIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  
+  @keyframes slideUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  
+  /* Fade-in animation for the 'About Us' section */
+.fadeIn {
+    animation: fadeIn 6s ease-in-out;
+  }
+  
+  /* Slide-in animation for the 'Contact Us' section */
+  .slideInRight {
+    animation: slideInRight 6s ease-in-out;
+  }
+  
+  /* Keyframe for the fade-in effect */
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Keyframe for the slide-in effect */
+  @keyframes slideInRight {
+    0% {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  
+  /* --- Responsive Design --- */
+
+/* For larger screens (desktops) */
+@media screen and (min-width: 1200px) {
+  .custom-swiper, .custom-slide {
+      height: 500px;
+  }
+  .slide-text {
+      font-size: 24px;
+  }
+}
+/* For tablets */
+@media screen and (max-width: 991px) {
+  .custom-swiper, .custom-slide {
+      height: 350px;
+  }
+  .slide-text {
+      top: 15%;
+      left: 5%;
+      font-size: 16px;
+  }
+  .category-card {
+      width: 120px;
+      height: 120px;
+  }
+}
+/* For smaller tablets and large phones */
+@media screen and (max-width: 768px) {
+  .custom-swiper, .custom-slide {
+      height: 280px;
+  }
+  .slide-text {
+      font-size: 14px;
+      padding: 8px 15px;
+  }
+  .category-card {
+      width: 100px;
+      height: 100px;
+  }
+}
+/* For mobile screens */
+@media screen and (max-width: 480px) {
+  .custom-swiper, .custom-slide {
+      height: 200px;
+  }
+  .slide-text {
+      font-size: 12px;
+      top: 10%;
+      left: 5%;
+      padding: 6px 12px;
+  }
+  .category-card {
+      width: 80px;
+      height: 80px;
+  }
+}

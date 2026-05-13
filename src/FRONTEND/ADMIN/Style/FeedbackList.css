@@ -1,0 +1,95 @@
+body {
+    background: none !important;
+  }
+  
+  .main-content {
+    flex: 1;
+    padding: 50px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  
+  .table-wrapper {
+    width: 100%;
+    margin-left:2-px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  h2 {
+    font-weight: bolder;
+    color: #333;
+  }
+  
+  th {
+    background: #007bff;
+    color: #ffffff;
+    font-size: 16px;
+    padding: 15px 25px; /* Increased horizontal padding */
+    text-align: left;
+    text-transform: uppercase;
+    border-bottom: 2px solid #ffffff;
+  }
+  
+  td {
+    padding: 25px 50px; /* Increased horizontal padding */
+    border-bottom: 1px solid #ddd;
+    font-size: 15px;
+    color: #333;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #d2dfec;
+  }
+  
+  tr:hover {
+    background-color: #e9ecef;
+  }
+  
+  .delete-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background 0.3s ease-in-out;
+  }
+  
+  .delete-btn:hover {
+    background-color: #c82333;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .main-content {
+        padding: 15px;
+    }
+  
+    table {
+        font-size: 14px;
+    }
+  
+    th,
+    td {
+        padding: 8px;
+    }
+  
+    .delete-btn {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+  
+    .sidebar {
+        width: 100%;
+    }
+  }

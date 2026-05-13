@@ -1,0 +1,76 @@
+/* ============================= */
+/* GLOBAL MOBILE FIX (POWER FIX) */
+/* ============================= */
+
+/* Prevent overflow issues */
+body {
+  overflow-x: hidden;
+}
+
+/* Fix images everywhere */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Fix Bootstrap collapse issue visibility */
+.navbar-collapse {
+  flex-grow: 1 !important;
+}
+
+/* Fix containers */
+.container, .container-fluid {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+
+/* Remove fixed heights globally */
+[class*="card"], 
+.product-card {
+  height: auto !important;
+}
+
+/* Fix flex layouts breaking on mobile */
+@media (max-width: 768px) {
+
+  /* Stack everything vertically */
+  .row {
+    flex-direction: column !important;
+  }
+
+  /* Fix navbar content */
+  .navbar .container-fluid {
+    flex-wrap: wrap !important;
+  }
+
+  /* Hide heavy desktop elements */
+  .header-tagline {
+    display: none !important;
+  }
+
+  /* Fix large text overflow */
+  h1 {
+    font-size: 22px !important;
+  }
+
+  h2 {
+    font-size: 18px !important;
+  }
+
+  /* Buttons full width */
+  button {
+    width: 100% !important;
+  }
+
+  /* Fix product detail layouts */
+  [class*="product"] {
+    flex-direction: column !important;
+  }
+
+  /* Fix grids */
+  .row-cols-md-4 > * {
+    flex: 0 0 50% !important;
+    max-width: 50% !important;
+  }
+}

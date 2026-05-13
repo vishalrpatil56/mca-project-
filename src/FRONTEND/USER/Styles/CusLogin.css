@@ -1,0 +1,189 @@
+/* Basic Reset for all elements */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+  }
+  
+  
+  
+  /* @keyframes backgroundAnimation {
+    0% {
+      background: linear-gradient(135deg, #ff0008, #fad0c4);
+    }
+    100% {
+      background: linear-gradient(135deg, #ff430f, #ffdde1);
+    }
+  }
+   */
+   /* Container for centering login card */
+  
+  .content {
+    margin-top: "50px";
+    text-align: center;
+    background: rgb(255, 255, 255);
+    font-weight: bold;
+    animation: bounceIn 0.8s ease-in-out;
+    /* animation: fadeIn 1.5s ease-in-out; */
+    
+  }
+   .center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 85vh;
+    animation: fadeIn 1.5s ease-in-out;
+  }
+  
+ 
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Styling for the login card with bounce effect */
+  .login-card {
+    width: 450px;
+    padding: 45px;
+    margin-top: -50px;
+    background: white;
+    border-radius: 15px;
+    text-align: center;
+    margin-left:6px;
+    box-shadow: 0px 15px 25px rgba(0, 0, 0, 0.5);
+    animation: bounceIn 0.8s ease-in-out;
+  }
+  
+  @keyframes bounceIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    60% {
+      transform: scale(1.1);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  /* Login Title */
+  .title {
+    font-size: 40px;
+    font-weight: bold;
+    color: #000000;
+    margin-bottom: 25px;
+    animation: fadeIn 1s ease-in-out;
+  }
+  .form-group label {
+    font-weight: bold;
+    font-size: 18px;
+    color: rgb(0, 0, 0);
+    width: 95%;
+    text-align: left;
+  
+  }
+  
+  
+  /* Input fields with smooth focus animation */
+  .input-field {
+    width: 100%;
+    padding: 16px;
+    border: 2px solid #000000;
+    border-radius: 10px;
+    background-color: #ffffff;
+    font-size: 17px;
+    transition: all 0.4s ease-in-out;
+    margin-bottom: 18px;
+  }
+  
+  .input-field:focus {
+    background-color: white;
+    border-color: #000000;
+    transform: scale(1.03);
+  }
+  
+  /* Login button with glowing hover effect */
+  .login-button {
+    width: 100%;
+    padding: 15px;
+    background: #454444;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.4s ease-in-out;
+    margin-top: 12px;
+  }
+  
+  .login-button:hover {
+    background: #000000;
+    transform: scale(1.08);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+  }
+  
+  .login-button:active {
+    transform: scale(0.96);
+  }
+  
+  .password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+  
+  /* Ensure the button stays inside the field */
+  .show-password-button {
+    position: absolute;
+    right: 15px;
+    top: 40%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #000000;
+    cursor: pointer;
+    font-size: 16px;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .show-password-button:hover {
+    transform: rotate(20deg) scale(1.15);
+    color: #787878;
+  }
+  
+  /* Checkbox row with smooth fade-in
+  .options-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 15px;
+    color: #444;
+    animation: fadeIn 1.8s ease-in-out;
+    margin-top: 12px;
+  } */
+  
+  /* Register link with animated glow */
+  .register-text a {
+    color: #000000;
+    text-decoration: none;
+    font-weight: bold;
+    position: relative;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  .register-text a:hover {
+    color: #000000;
+    text-shadow: 0 0 5px rgba(37, 28, 28, 0.6);
+  }

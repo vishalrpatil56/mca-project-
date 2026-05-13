@@ -1,0 +1,22 @@
+.cus-form-page {
+  min-height: calc(100vh - 130px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 40px 16px;
+  background: linear-gradient(135deg, #f7f7f7, #efefef);
+}
+.cus-form-card {
+  background: #fff; border-radius: 16px;
+  padding: 40px 36px; width: 100%; max-width: 560px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+}
+.cus-form-header { text-align: center; margin-bottom: 28px; }
+.cus-form-icon { font-size: 44px; margin-bottom: 12px; }
+.cus-form-header h1 { font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 700; color: #1a1a1a; margin: 0 0 6px; }
+.cus-form-header p { font-size: 14px; color: #6b7280; margin: 0; }
+/* Star rating */
+.star-rating { display: flex; align-items: center; gap: 4px; }
+.star-btn { background: none; border: none; font-size: 28px; cursor: pointer; color: #d1d5db; transition: color 0.15s, transform 0.1s; padding: 2px; }
+.star-btn.active { color: #f59e0b; }
+.star-btn:hover { transform: scale(1.15); }
+.rating-label { font-size: 13px; color: #6b7280; margin-left: 8px; font-weight: 600; }
+@media (max-width: 500px) { .cus-form-card { padding: 28px 20px; } }

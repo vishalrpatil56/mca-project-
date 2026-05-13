@@ -1,0 +1,37 @@
+.admin-welcome {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  margin-bottom: 28px; flex-wrap: wrap; gap: 12px;
+}
+.admin-welcome h1 { font-size: 24px; font-weight: 700; margin: 0 0 4px; color: #1a1a1a; }
+.admin-welcome p { font-size: 14px; color: #6b7280; margin: 0; }
+.admin-date { font-size: 13px; color: #9ca3af; padding-top: 4px; }
+.admin-stats {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 16px; margin-bottom: 32px;
+}
+.admin-stat-card {
+  background: #fff; border-radius: 10px; padding: 20px 18px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.admin-stat-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); transform: translateY(-2px); }
+.stat-icon { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 12px; }
+.stat-val { font-size: 32px; font-weight: 800; margin-bottom: 4px; }
+.stat-label { font-size: 13px; color: #6b7280; font-weight: 500; }
+.admin-section-title { font-size: 16px; font-weight: 700; margin: 0 0 16px; color: #1a1a1a; }
+.admin-quick-links { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+.quick-link-card {
+  background: #fff; border: 1px solid #e5e7eb; border-radius: 10px;
+  padding: 18px 16px; text-decoration: none; color: inherit;
+  display: flex; flex-direction: column; gap: 6px;
+  transition: all 0.2s; position: relative;
+}
+.quick-link-card:hover { border-color: #e8400a40; box-shadow: 0 4px 16px rgba(232,64,10,0.08); transform: translateY(-2px); }
+.ql-icon { font-size: 24px; }
+.ql-label { font-size: 14px; font-weight: 700; color: #1a1a1a; }
+.ql-desc { font-size: 12px; color: #9ca3af; line-height: 1.4; }
+.ql-arrow { position: absolute; top: 16px; right: 16px; font-size: 16px; color: #d1d5db; }
+.quick-link-card:hover .ql-arrow { color: #e8400a; }
+@media (max-width: 1024px) { .admin-stats { grid-template-columns: repeat(2, 1fr); } .admin-quick-links { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 600px) { .admin-stats { grid-template-columns: 1fr 1fr; } .admin-quick-links { grid-template-columns: 1fr 1fr; } }
