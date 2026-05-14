@@ -160,7 +160,9 @@ const ProductDetails = () => {
                   disabled={!formData.category_id}>
                   <option value="">-- Select Subcategory --</option>
                   {subCategories.map((s) => (
-                    <option key={s.p_subcata_id} value={s.p_subcata_id}>{s.p_sub_cata_name}</option>
+                  <option key={s.p_sub_cata_id} value={s.p_sub_cata_id}>
+                      {s.p_sub_cata_name}
+                    </option>         
                   ))}
                 </select>
                 {errors.subcategory_id && <span className="field-error">{errors.subcategory_id}</span>}

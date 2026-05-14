@@ -29,7 +29,28 @@ const SerFeedback = () => {
       </span>
     );
   };
+const deleteFeedback = async (id) => {
+  if (!window.confirm("Are you sure you want to delete this feedback?"))
+    return;
 
+  try {
+    const res = await fetch(`http://localhost:5000/feedback/${id}`, {
+      method: "DELETE",
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      alert("Feedback deleted successfully");
+
+      setFeedbacks((prev) =>
+        prev.filter((item) => item.feedback_id !== id)
+      );
+    }
+  } catch (err) {
+    alert("Delete failed");
+  }
+};
   return (
     <>
       <Header />
@@ -70,6 +91,22 @@ const SerFeedback = () => {
                     <p style={{ margin: 0, fontSize: 14, color: "#1a1a1a", lineHeight: 1.6 }}>
                       {f.feedback_text || f.feedback_description || "No details provided"}
                     </p>
+                    <div style={{ marginTop: 14 }}>
+  <button
+    onClick={() => deleteFeedback(f.feedback_id)}
+    style={{
+      background: "#ef4444",
+      color: "#fff",
+      border: "none",
+      padding: "8px 14px",
+      borderRadius: 8,
+      cursor: "pointer",
+      fontWeight: 600,
+    }}
+  >
+    Delete
+  </button>
+</div>
                   </div>
                   <div style={{ textAlign: "right", flexShrink: 0 }}>
                     {renderStars(f.rating)}

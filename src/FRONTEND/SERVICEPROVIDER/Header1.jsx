@@ -47,7 +47,21 @@ const Header1 = () => {
             </Link>
           ))}
         </div>
-
+          <Link
+            to="/Adminpenal"
+            style={{
+              padding: "10px 18px",
+              borderRadius: "10px",
+              background: "#111827",
+              color: "#fff",
+              textDecoration: "none",
+              fontWeight: "600",
+              border: "1px solid rgba(255,255,255,0.08)",
+              transition: "0.3s",
+            }}
+          >
+            Admin Panel
+          </Link>
         <button className="sp-logout-btn" onClick={handleLogout}>
           <FiLogOut size={15} /> Logout
         </button>

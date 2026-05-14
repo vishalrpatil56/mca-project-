@@ -56,3 +56,145 @@
   .features-container { grid-template-columns: 1fr; }
   .feature-item { border-right: none; border-bottom: 1px solid #e5e7eb; }
 }
+/* Support Section */
+.support-section {
+  padding: 60px 0;
+  background: #f8fafc;
+}
+
+.support-card {
+  background: linear-gradient(135deg, #0d0d0d, #1a0a05);
+  border-radius: 18px;
+  padding: 42px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+  flex-wrap: wrap;
+  overflow: hidden;
+  position: relative;
+}
+
+.support-card::before {
+  content: "";
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 220px;
+  height: 220px;
+  background: rgba(232, 64, 10, 0.08);
+  border-radius: 50%;
+}
+
+.support-card h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 34px;
+  color: #fff;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 2;
+}
+
+.support-card p {
+  color: #bdbdbd;
+  font-size: 15px;
+  line-height: 1.7;
+  max-width: 580px;
+  margin: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.support-buttons {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 2;
+}
+
+.support-btn {
+  padding: 14px 26px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 190px;
+}
+
+.complaint-btn {
+  background: #ef4444;
+  color: #fff;
+}
+
+.feedback-btn {
+  background: #e8400a;
+  color: #fff;
+}
+
+.support-btn:hover {
+  transform: translateY(-3px);
+  color: #fff;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+
+.complaint-btn:hover {
+  background: #dc2626;
+}
+
+.feedback-btn:hover {
+  background: #c43308;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .support-card {
+    padding: 32px 24px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .support-card h2 {
+    font-size: 28px;
+  }
+
+  .support-buttons {
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .support-section {
+    padding: 40px 0;
+  }
+
+  .support-card {
+    padding: 24px 18px;
+    border-radius: 14px;
+  }
+
+  .support-card h2 {
+    font-size: 24px;
+    line-height: 1.3;
+  }
+
+  .support-card p {
+    font-size: 14px;
+  }
+
+  .support-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .support-btn {
+    width: 100%;
+    min-width: unset;
+    font-size: 14px;
+    padding: 13px 18px;
+  }
+}

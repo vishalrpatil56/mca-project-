@@ -97,6 +97,30 @@ const CusHome = () => {
           </div>
         </div>
       </div>
+      {/* Support Section */}
+<div className="support-section">
+  <div className="home-container">
+    <div className="support-card">
+      <div>
+        <h2>Need Help or Want to Share Feedback?</h2>
+        <p>
+          Submit complaints, report issues, or share your valuable feedback
+          with us.
+        </p>
+      </div>
+
+      <div className="support-buttons">
+        <Link to="/cuscomplain" className="support-btn complaint-btn">
+          📋 Submit Complaint
+        </Link>
+
+        <Link to="/cusfeedback" className="support-btn feedback-btn">
+          ⭐ Give Feedback
+        </Link>
+      </div>
+    </div>
+  </div>
+</div>
 
       {/* CTA Banner */}
       <div className="cta-banner">

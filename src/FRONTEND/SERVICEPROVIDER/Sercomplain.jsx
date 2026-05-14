@@ -58,25 +58,192 @@ const SerComplain = () => {
         ) : (
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             {filtered.map((c) => {
-              const s = getStatusStyle(c.status);
-              return (
-                <div key={c.complain_id} style={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 12, padding: 18, boxShadow: "0 1px 4px rgba(0,0,0,0.05)" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12 }}>
-                    <div style={{ flex: 1 }}>
-                      <div style={{ fontSize: 13, fontWeight: 700, color: "#9ca3af", marginBottom: 6 }}>
-                        Complaint #{c.complain_id} · Customer ID: {c.customer_id || "—"}
-                      </div>
-                      <p style={{ margin: 0, fontSize: 14, color: "#1a1a1a", lineHeight: 1.6 }}>
-                        {c.complain_text || "No details provided"}
-                      </p>
-                    </div>
-                    <span style={{ background: s.bg, color: s.color, border: `1px solid ${s.border}`, fontSize: 11, fontWeight: 700, padding: "3px 10px", borderRadius: 99, flexShrink: 0, textTransform: "capitalize" }}>
-                      {c.status || "Pending"}
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
+  const s = getStatusStyle(c.status);
+
+  const resolveComplaint = async (id) => {
+    
+
+    try {
+      const res = await fetch(`http://localhost:5000/complain/resolve/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        alert("Complaint resolved successfully");
+
+        setComplaints((prev) =>
+          prev.map((item) =>
+            item.complain_id === id
+              ? {
+                  ...item,
+                  status: "resolved",
+                }
+              : item
+          )
+        );
+      }
+    } catch (err) {
+      alert("Failed to resolve complaint");
+    }
+  };
+
+  const deleteComplaint = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this complaint?")) return;
+
+    try {
+      const res = await fetch(`http://localhost:5000/complain/${id}`, {
+        method: "DELETE",
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        alert("Complaint deleted");
+
+        setComplaints((prev) =>
+          prev.filter((item) => item.complain_id !== id)
+        );
+      }
+    } catch (err) {
+      alert("Delete failed");
+    }
+  };
+
+  return (
+    <div
+      key={c.complain_id}
+      style={{
+        background: "#fff",
+        border: "1px solid #e5e7eb",
+        borderRadius: 12,
+        padding: 18,
+        boxShadow: "0 1px 4px rgba(0,0,0,0.05)",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+          gap: 12,
+        }}
+      >
+        <div style={{ flex: 1 }}>
+          <div
+            style={{
+              fontSize: 13,
+              fontWeight: 700,
+              color: "#9ca3af",
+              marginBottom: 6,
+            }}
+          >
+            Complaint #{c.complain_id} · Customer ID: {c.customer_id || "—"}
+          </div>
+
+          <p
+            style={{
+              margin: 0,
+              fontSize: 14,
+              color: "#1a1a1a",
+              lineHeight: 1.6,
+            }}
+          >
+            {c.complain_text || "No details provided"}
+          </p>
+
+          {c.status !== "resolved" && c.resolve_time && (
+  <p
+    style={{
+      marginTop: 10,
+      fontSize: 13,
+      color: "#f59e0b",
+      fontWeight: 600,
+    }}
+  >
+    ⏳ Estimated resolution time: {c.resolve_time}
+  </p>
+)}
+
+{c.status === "resolved" && (
+  <p
+    style={{
+      marginTop: 10,
+      fontSize: 13,
+      color: "#10b981",
+      fontWeight: 600,
+    }}
+  >
+    ✅ Resolved on:{" "}
+    {new Date(c.resolved_at).toLocaleString()}
+  </p>
+)}
+
+          <div
+            style={{
+              display: "flex",
+              gap: 10,
+              marginTop: 14,
+            }}
+          >
+            {c.status !== "resolved" && (
+              <button
+                onClick={() => resolveComplaint(c.complain_id)}
+                style={{
+                  background: "#10b981",
+                  color: "#fff",
+                  border: "none",
+                  padding: "8px 14px",
+                  borderRadius: 8,
+                  cursor: "pointer",
+                  fontWeight: 600,
+                }}
+              >
+                Resolve
+              </button>
+            )}
+
+            <button
+              onClick={() => deleteComplaint(c.complain_id)}
+              style={{
+                background: "#ef4444",
+                color: "#fff",
+                border: "none",
+                padding: "8px 14px",
+                borderRadius: 8,
+                cursor: "pointer",
+                fontWeight: 600,
+              }}
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+
+        <span
+          style={{
+            background: s.bg,
+            color: s.color,
+            border: `1px solid ${s.border}`,
+            fontSize: 11,
+            fontWeight: 700,
+            padding: "3px 10px",
+            borderRadius: 99,
+            flexShrink: 0,
+            textTransform: "capitalize",
+          }}
+        >
+          {c.status || "Pending"}
+        </span>
+      </div>
+    </div>
+  );
+})}
           </div>
         )}
       </div>

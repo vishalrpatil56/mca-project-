@@ -139,7 +139,7 @@ const CheckOut = () => {
       });
 
       const options = {
-        key:       process.env.VITE_RAZORPAY_KEY || "rzp_test_SgPSwKkrO0I17f",
+        key:       import.meta.env.VITE_RAZORPAY_KEY || "rzp_test_SgPSwKkrO0I17f",
         amount:    res.data.amount,
         currency:  "INR",
         name:      "Balaji Enterprises",

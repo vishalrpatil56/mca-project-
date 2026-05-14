@@ -106,11 +106,14 @@ const styles = StyleSheet.create({
 const OrdersPDF = ({ order }) => {
   if (!order) return null;
 
-  const subtotal = order.total;
-  const gst = subtotal * 0.18;
-  const cgst = gst / 2;
-  const sgst = gst / 2;
-  const grandTotal = subtotal + gst;
+  const grandTotal = Number(order.total || 0);
+
+const taxableAmount = grandTotal / 1.18;
+
+const gst = grandTotal - taxableAmount;
+
+const cgst = gst / 2;
+const sgst = gst / 2;
 
   return (
     <Document>
@@ -170,7 +173,7 @@ const OrdersPDF = ({ order }) => {
           {order.products?.map((p, i) => (
             <View style={styles.row} key={i}>
               <Text style={styles.cell}>{p.name}</Text>
-              <Text style={styles.cell}>1</Text>
+              <Text style={styles.cell}>{p.quantity || 1}</Text>
               <Text style={styles.cell}>
                 {`₹ ${p.price.toLocaleString("en-IN")}`}
               </Text>
@@ -183,7 +186,7 @@ const OrdersPDF = ({ order }) => {
 
         {/* TOTAL */}
         <View style={styles.totalSection}>
-          <Text>{`Subtotal: ₹ ${subtotal.toLocaleString("en-IN")}`}</Text>
+          <Text>{`Taxable Amount: ₹ ${taxableAmount.toFixed(2)}`}</Text>
           <Text>{`CGST (9%): ₹ ${cgst.toLocaleString("en-IN")}`}</Text>
           <Text>{`SGST (9%): ₹ ${sgst.toLocaleString("en-IN")}`}</Text>
           <Text style={styles.total}>
@@ -210,14 +213,44 @@ const DownloadInvoice = ({ order }) => {
   if (!order) return null;
 
   return (
+  <div
+    style={{
+      position: "relative",
+      zIndex: 999,
+      display: "inline-block",
+    }}
+  >
     <PDFDownloadLink
       document={<OrdersPDF order={order} />}
       fileName={`Invoice_${order.id}.pdf`}
-      className="btn btn-success"
+      style={{ textDecoration: "none" }}
     >
-      {({ loading }) => (loading ? "Generating..." : "Download Invoice")}
+      {({ loading }) => (
+        <div
+          style={{
+            border: "1px solid #2563eb",
+            backgroundColor: "#eff6ff",
+            color: "#2563eb",
+            padding: "7px 14px",
+            borderRadius: "8px",
+            fontSize: "13px",
+            fontWeight: "600",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "5px",
+            cursor: "pointer",
+            whiteSpace: "nowrap",
+            minWidth: "110px",
+            userSelect: "none",
+          }}
+        >
+          {loading ? "Generating..." : "📄 Invoice"}
+        </div>
+      )}
     </PDFDownloadLink>
-  );
+  </div>
+);
 };
 
 export default DownloadInvoice;

@@ -21,17 +21,17 @@ const ServiceProviderList = () => {
     if (!window.confirm("Delete this service provider? This cannot be undone.")) return;
     try {
       await axios.delete(`http://localhost:5000/serviceprovider/${id}`);
-      setProviders((prev) => prev.filter((p) => p.sp_id !== id));
+      setProviders((prev) => prev.filter((p) => p.serviceprovider_id !== id));
       toast.success("Service provider deleted successfully");
     } catch { toast.error("Failed to delete service provider"); }
   };
 
   const filtered = providers.filter((p) =>
-    (p.sp_name || "").toLowerCase().includes(search.toLowerCase()) ||
-    (p.sp_email || "").toLowerCase().includes(search.toLowerCase()) ||
-    (p.sp_contact || "").includes(search) ||
-    (p.sp_service || "").toLowerCase().includes(search.toLowerCase())
-  );
+  (p.name || "").toLowerCase().includes(search.toLowerCase()) ||
+  (p.email || "").toLowerCase().includes(search.toLowerCase()) ||
+  (p.mobile || "").includes(search) ||
+  (p.address || "").toLowerCase().includes(search.toLowerCase())
+);
 
   return (
     <>
@@ -59,7 +59,7 @@ const ServiceProviderList = () => {
                   <th>Name</th>
                   <th>Contact</th>
                   <th>Email</th>
-                  <th>Service Type</th>
+                  <th>Address</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -67,18 +67,34 @@ const ServiceProviderList = () => {
                 {filtered.length === 0 ? (
                   <tr><td colSpan={6} style={{ textAlign: "center", padding: 32, color: "#9ca3af" }}>No service providers found</td></tr>
                 ) : filtered.map((p, idx) => (
-                  <tr key={p.sp_id}>
-                    <td className="td-muted">{idx + 1}</td>
-                    <td className="td-bold">{p.sp_name}</td>
-                    <td>{p.sp_contact}</td>
-                    <td>{p.sp_email}</td>
-                    <td>{p.sp_service || <span style={{ color: "#d1d5db" }}>—</span>}</td>
-                    <td>
-                      <button className="btn-delete-sm" onClick={() => deleteProvider(p.sp_id)}>
-                        <FaTrash size={13} /> Delete
-                      </button>
-                    </td>
-                  </tr>
+                  <tr key={p.serviceprovider_id}>
+  <td className="td-muted">{idx + 1}</td>
+
+  <td className="td-bold">
+    {p.name}
+  </td>
+
+  <td>
+    {p.mobile}
+  </td>
+
+  <td>
+    {p.email}
+  </td>
+
+  <td>
+    {p.address || <span style={{ color: "#d1d5db" }}>—</span>}
+  </td>
+
+  <td>
+    <button
+      className="btn-delete-sm"
+      onClick={() => deleteProvider(p.serviceprovider_id)}
+    >
+      <FaTrash size={13} /> Delete
+    </button>
+  </td>
+</tr>
                 ))}
               </tbody>
             </table>

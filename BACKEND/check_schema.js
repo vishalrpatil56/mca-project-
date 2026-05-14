@@ -36,12 +36,12 @@ function runChecks() {
     }
 
     // 2. Check subcategory names (most important for product display)
-    db.query("SELECT p_subcata_id, p_sub_cata_name, p_cata_id FROM product_sub_category ORDER BY p_cata_id", (err, rows) => {
+    db.query("SELECT p_sub_cata_id, p_sub_cata_name, p_cata_id FROM product_sub_category ORDER BY p_cata_id", (err, rows) => {
       if (err) {
         console.log("\n⚠️  product_sub_category:", err.message);
       } else {
         console.log("\n🏷️  Subcategory names in your DB (these must match server.js exactly):");
-        rows.forEach(r => console.log(`   ID ${r.p_subcata_id} | Cat ${r.p_cata_id} | "${r.p_sub_cata_name}"`));
+        rows.forEach(r => console.log(`   ID ${r.p_sub_cata_id} | Cat ${r.p_cata_id} | "${r.p_sub_cata_name}"`));
 
         const expected = [
           "LED", "QLED",

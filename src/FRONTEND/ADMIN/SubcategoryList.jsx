@@ -37,7 +37,7 @@ function SubcategoryList() {
     if (!window.confirm("Delete this subcategory and all its products?")) return;
     try {
       await axios.delete(`http://localhost:5000/subcategories/${subcategoryId}`);
-      setSubcategories((prev) => prev.filter((s) => s.p_subcata_id !== subcategoryId));
+      setSubcategories((prev) => prev.filter((s) => s.p_sub_cata_id !== subcategoryId));
       toast.success("Subcategory deleted");
     } catch { toast.error("Failed to delete subcategory"); }
   };
@@ -55,7 +55,7 @@ function SubcategoryList() {
   };
 
   const filtered = subcategories.filter((s) =>
-    (s.p_subcata_name || "").toLowerCase().includes(search.toLowerCase())
+    (s.p_sub_cata_name || "").toLowerCase().includes(search.toLowerCase())
   );
 
   return (
@@ -121,12 +121,12 @@ function SubcategoryList() {
                     {search ? "No subcategories match your search" : "No subcategories found. Add one above."}
                   </td></tr>
                 ) : filtered.map((s, idx) => (
-                  <tr key={s.p_subcata_id}>
+                  <tr key={s.p_sub_cata_id}>
                     <td className="td-muted">{idx + 1}</td>
-                    <td className="td-bold">{s.p_subcata_name}</td>
-                    <td style={{ color: "#6b7280" }}>{s.p_subcata_description || <span style={{ color: "#d1d5db" }}>—</span>}</td>
+                    <td className="td-bold">{s.p_sub_cata_name}</td>
+                    <td style={{ color: "#6b7280" }}>{s.p_sub_cata_description || <span style={{ color: "#d1d5db" }}>—</span>}</td>
                     <td>
-                      <button className="btn-delete-sm" onClick={() => handleDelete(s.p_subcata_id)}>
+                      <button className="btn-delete-sm" onClick={() => handleDelete(s.p_sub_cata_id)}>
                         <FaTrash size={12} /> Delete
                       </button>
                     </td>

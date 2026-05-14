@@ -50,13 +50,44 @@ const CusFooter = () => {
           {/* Contact */}
           <div className="footer-col">
             <h4 className="footer-col-title">Contact Us</h4>
+
             <ul className="footer-contact-list">
-              <li><FaPhone className="contact-icon" /><span>+91 81238 92151</span></li>
-              <li><FaEnvelope className="contact-icon" /><span>support@balajienterprises.com</span></li>
-              <li><FaMapMarkerAlt className="contact-icon" /><span>Mon–Sat: 10:00 AM – 6:00 PM</span></li>
+              <li>
+                <FaPhone className="contact-icon" />
+                <span>
+                  +91 8123892151
+                </span>
+              </li>
+
+              <li>
+                <FaEnvelope className="contact-icon" />
+                <span>np65925603@gmail.com</span>
+              </li>
+
+              <li>
+                <FaMapMarkerAlt className="contact-icon" />
+                <span>Green Park, Nipani</span>
+              </li>
+              <li>
+              <div style={{ marginTop: "18px" }}>
+    <p className="footer-service-extra">
+      <strong>Technicians:</strong><br />
+      Nilesh Patil<br />
+      Vikas Patil
+    </p>
+
+    <p className="footer-service-extra">
+      <strong>Service Contacts:</strong><br />
+      8123892151<br />
+      7338121244
+    </p>
+  </div></li>
             </ul>
-          </div>
+
+ 
         </div>
+      
+      </div>
       </div>
 
       <div className="footer-bottom">

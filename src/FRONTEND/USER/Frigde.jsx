@@ -18,8 +18,7 @@ const Fridge = () => {
         const [s, d, sb, t] = await Promise.all([
           axios.get("http://localhost:5000/api/refrigerators/singledoor"),
           axios.get("http://localhost:5000/api/refrigerators/doubledoor"),
-          axios.get("http://localhost:5000/api/refrigerators/sidebyside"),
-          axios.get("http://localhost:5000/api/refrigerators/tripledoor"),
+          
         ]);
         setSingle(s.data); setDouble(d.data); setSide(sb.data); setTriple(t.data);
       } catch (err) {
@@ -41,8 +40,7 @@ const Fridge = () => {
       <div className="category-page">
         <ProductSection title="Single Door Refrigerators" products={single} loading={loading} />
         <ProductSection title="Double Door Refrigerators" products={double} loading={loading} />
-        <ProductSection title="Side-by-Side Refrigerators" products={side} loading={loading} />
-        <ProductSection title="Triple Door Refrigerators" products={triple} loading={loading} />
+        
       </div>
       <CusFooter />
     </div>

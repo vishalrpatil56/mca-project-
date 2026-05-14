@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaBox, FaTrash, FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { toast } from "react-toastify";
+import DownloadReport from "./DownloadReport";
 import Header from "./Header1";
 import "../../theme.css";
 
@@ -65,15 +66,25 @@ const ProductOrder = () => {
                   </div>
                 </div>
               </div>
-              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <div
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: 10,
+    flexWrap: "wrap",
+    position: "relative",
+    zIndex: 5,
+  }}
+>
                 <span style={{ fontSize: 16, fontWeight: 700, color: "#e8400a" }}>
                   ₹{Number(order.total || 0).toLocaleString("en-IN")}
                 </span>
+                <DownloadReport order={order} />
                 <button className="btn-delete-sm" onClick={() => handleDelete(order.id)}>
                   <FaTrash size={12} /> Cancel
                 </button>
                 <button
-                  style={{ background: "none", border: "1px solid #e5e7eb", borderRadius: 6, padding: "6px 10px", cursor: "pointer", display: "flex", alignItems: "center" }}
+                  style={{ background: "none", border: "1px solid #e5e7eb", borderRadius: 6,position: "relative", zIndex: 1, padding: "6px 10px", cursor: "pointer", display: "flex", alignItems: "center" }}
                   onClick={() => setExpandedOrder(expandedOrder === order.id ? null : order.id)}
                 >
                   {expandedOrder === order.id ? <FaChevronUp size={12} /> : <FaChevronDown size={12} />}

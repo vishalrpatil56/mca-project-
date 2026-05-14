@@ -359,13 +359,13 @@ app.post("/submit-feedback", (req, res) => {
 });
 
 app.post("/api/complaint", (req, res) => {
-  const { customer_id, complain_text } = req.body;
+  const { customer_id, complain_text, resolve_time } = req.body;
   if (!customer_id || !complain_text?.trim())
     return res.status(400).json({ message: "Customer ID and complaint text required" });
 
   db.query(
-    "INSERT INTO complain (customer_id, complain_text) VALUES (?, ?)",
-    [customer_id, complain_text.trim()],
+    "INSERT INTO complain (customer_id, complain_text, resolve_time) VALUES (?, ?, ?)",
+    [customer_id, complain_text.trim(), resolve_time || "24 Hours"],
     (err) => {
       if (err) return res.status(500).json({ message: "Database error: " + err.message });
       res.json({ success: true, message: "Complaint submitted successfully" });
@@ -394,6 +394,20 @@ app.delete("/complain/:id", (req, res) => {
   });
 });
 
+// Resolve Complaint
+app.put("/complain/resolve/:id", (req, res) => {
+  db.query(
+    "UPDATE complain SET status = 'resolved', resolved_at = NOW() WHERE complain_id = ?",
+    [req.params.id],
+    (err) => {
+      if (err)
+        return res.status(500).json({ message: "Failed to resolve complaint" });
+
+      res.json({ success: true });
+    }
+  );
+});
+
 app.get("/feedbacklist", (req, res) => {
   db.query("SELECT * FROM feedback ORDER BY feedback_id DESC", (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
@@ -408,6 +422,19 @@ app.get("/userfeedbacklist", (req, res) => {
   });
 });
 
+// Delete Feedback
+app.delete("/feedback/:id", (req, res) => {
+  db.query(
+    "DELETE FROM feedback WHERE feedback_id = ?",
+    [req.params.id],
+    (err) => {
+      if (err)
+        return res.status(500).json({ message: "Delete failed" });
+
+      res.json({ success: true });
+    }
+  );
+});
 // ═══════════════════════════════════════════════════════════
 //  CATEGORY & SUBCATEGORY ROUTES
 // ═══════════════════════════════════════════════════════════
@@ -441,7 +468,7 @@ app.delete("/categories/:id", (req, res) => {
 
 app.get("/categories/:categoryId/subcategories", (req, res) => {
   db.query(
-    "SELECT * FROM product_sub_category WHERE p_cata_id = ? ORDER BY p_subcata_id ASC",
+    "SELECT * FROM product_sub_category WHERE p_cata_id = ? ORDER BY p_sub_cata_id ASC",
     [req.params.categoryId],
     (err, results) => {
       if (err) return res.status(500).json({ message: "Error: " + err.message });
@@ -451,20 +478,34 @@ app.get("/categories/:categoryId/subcategories", (req, res) => {
 });
 
 app.post("/categories/:categoryId/subcategories", (req, res) => {
-  const { name, description } = req.body;
-  if (!name?.trim()) return res.status(400).json({ message: "Subcategory name required" });
+  const { name } = req.body;
+
+  if (!name?.trim()) {
+    return res.status(400).json({
+      message: "Subcategory name required"
+    });
+  }
+
   db.query(
-    "INSERT INTO product_sub_category (p_sub_cata_name, p_sub_cata_description, p_cata_id) VALUES (?, ?, ?)",
-    [name.trim(), description || "", req.params.categoryId],
+    "INSERT INTO product_sub_category (p_sub_cata_name, p_cata_id) VALUES (?, ?)",
+    [name.trim(), req.params.categoryId],
     (err, result) => {
-      if (err) return res.status(500).json({ message: "Error: " + err.message });
-      res.status(201).json({ success: true, id: result.insertId });
+      if (err) {
+        return res.status(500).json({
+          message: "Error: " + err.message
+        });
+      }
+
+      res.status(201).json({
+        success: true,
+        id: result.insertId
+      });
     }
   );
 });
 
 app.delete("/subcategories/:id", (req, res) => {
-  db.query("DELETE FROM product_sub_category WHERE p_subcata_id = ?", [req.params.id], (err) => {
+  db.query("DELETE FROM product_sub_category WHERE p_sub_cata_id = ?", [req.params.id], (err) => {
     if (err) return res.status(500).json({ message: "Error: " + err.message });
     res.json({ message: "Subcategory deleted" });
   });
@@ -479,10 +520,10 @@ app.delete("/subcategories/:id", (req, res) => {
 function productQuery(subCataName, res) {
   const queries = [
     `SELECT pd.* FROM product_details pd
-     JOIN product_sub_category psc ON pd.p_sub_cata_id = psc.p_subcata_id
+     JOIN product_sub_category psc ON pd.p_sub_cata_id = psc.p_sub_cata_id
      WHERE psc.p_sub_cata_name = ?`,
     `SELECT pd.* FROM product_details pd
-     JOIN product_sub_category psc ON pd.p_subcata_id = psc.p_subcata_id
+     JOIN product_sub_category psc ON pd.p_sub_cata_id = psc.p_sub_cata_id
      WHERE psc.p_sub_cata_name = ?`,
     `SELECT pd.* FROM product_details pd
      JOIN product_sub_category psc ON pd.p_sub_cata_id = psc.p_sub_cata_id
@@ -519,7 +560,7 @@ app.get("/api/debug/products", (req, res) => {
   db.query(
     `SELECT pd.product_id, pd.product_name, pd.product_price, psc.p_sub_cata_name
      FROM product_details pd
-     LEFT JOIN product_sub_category psc ON pd.p_sub_cata_id = psc.p_subcata_id
+     LEFT JOIN product_sub_category psc ON pd.p_sub_cata_id = psc.p_sub_cata_id
      ORDER BY pd.product_id DESC LIMIT 50`,
     (err, rows) => {
       if (err) {
@@ -537,7 +578,7 @@ app.get("/api/debug/products", (req, res) => {
 });
 
 // Television
-app.get("/api/televisions/led",    (req, res) => productQuery("LED", res));
+app.get("/api/televisions/led",    (req, res) => productQuery("LED ", res));
 app.get("/api/televisions/qled",   (req, res) => productQuery("QLED", res));
 // Washing Machine
 app.get("/api/washingmachines/topload",   (req, res) => productQuery("Top Load", res));
