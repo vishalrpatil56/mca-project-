@@ -30,7 +30,7 @@ const CusLogin = () => {
     if (!validate()) return;
     setLoading(true);
     try {
-      const response = await axios.post("http://98.85.25.190:5000/api/login", { email, password });
+      const response = await axios.post("/api/login", { email, password });
       if (response.data.success) {
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("user_id", response.data.user_id);

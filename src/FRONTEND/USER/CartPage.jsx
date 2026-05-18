@@ -81,7 +81,7 @@ const CartPage = () => {
               {cart.map((item, index) => (
                 <div key={index} className="cart-item-card">
                   <div className="cart-item-img">
-                    <img src={item.image} alt={item.name} onError={(e) => { e.target.src = "http://98.85.25.190:5000/uploads/home.png"; }} />
+                    <img src={item.image} alt={item.name} onError={(e) => { e.target.src = "/uploads/home.png"; }} />
                   </div>
                   <div className="cart-item-info">
                     <div className="cart-item-name">{item.name}</div>

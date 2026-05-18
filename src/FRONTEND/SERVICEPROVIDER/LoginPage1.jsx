@@ -26,7 +26,7 @@ const ServiceProviderLogin = () => {
     if (!validate()) return;
     setLoading(true);
     try {
-      const res = await fetch("http://98.85.25.190:5000/ServiceProviderLogin", {
+      const res = await fetch("/ServiceProviderLogin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

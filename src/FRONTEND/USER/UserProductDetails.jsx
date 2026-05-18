@@ -9,7 +9,7 @@ import { FiArrowLeft, FiCheck } from "react-icons/fi";
 import "../../theme.css";
 import "./Styles/UserProductDetails.css";
 
-const BASE = "http://98.85.25.190:5000";
+const BASE = "";
 
 function ProductDetails() {
   const [selectedImage, setSelectedImage] = useState("");

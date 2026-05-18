@@ -11,7 +11,7 @@ const FeedbackList = () => {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    axios.get("http://98.85.25.190:5000/feedbacklist")
+    axios.get("/feedbacklist")
       .then((r) => setFeedbacks(r.data))
       .catch(() => toast.error("Failed to load feedback"))
       .finally(() => setLoading(false));

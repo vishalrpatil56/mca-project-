@@ -11,7 +11,7 @@ const ServiceProviderList = () => {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    axios.get("http://98.85.25.190:5000/serviceproviderslist")
+    axios.get("/serviceproviderslist")
       .then((r) => setProviders(r.data))
       .catch(() => toast.error("Failed to load service providers"))
       .finally(() => setLoading(false));
@@ -20,7 +20,7 @@ const ServiceProviderList = () => {
   const deleteProvider = async (id) => {
     if (!window.confirm("Delete this service provider? This cannot be undone.")) return;
     try {
-      await axios.delete(`http://98.85.25.190:5000/serviceprovider/${id}`);
+      await axios.delete(`/serviceprovider/${id}`);
       setProviders((prev) => prev.filter((p) => p.serviceprovider_id !== id));
       toast.success("Service provider deleted successfully");
     } catch { toast.error("Failed to delete service provider"); }

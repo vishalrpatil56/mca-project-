@@ -8,7 +8,7 @@ const SerFeedback = () => {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    fetch("http://98.85.25.190:5000/feedbacklist")
+    fetch("/feedbacklist")
       .then((r) => r.json())
       .then((data) => setFeedbacks(Array.isArray(data) ? data : []))
       .catch(() => setFeedbacks([]))
@@ -34,7 +34,7 @@ const deleteFeedback = async (id) => {
     return;
 
   try {
-    const res = await fetch(`http://98.85.25.190:5000/feedback/${id}`, {
+    const res = await fetch(`/feedback/${id}`, {
       method: "DELETE",
     });
 

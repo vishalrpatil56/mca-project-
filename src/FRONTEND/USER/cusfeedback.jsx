@@ -27,7 +27,7 @@ function Cusfeedback() {
     setError("");
     setLoading(true);
     try {
-      const res = await axios.post("http://98.85.25.190:5000/submit-feedback", { user_id, feedback, rating });
+      const res = await axios.post("/submit-feedback", { user_id, feedback, rating });
       if (res.data.success) {
         toast.success("Thank you! Your feedback has been submitted.");
         setFeedback("");

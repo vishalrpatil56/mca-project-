@@ -13,7 +13,7 @@ const Header = () => {
         <nav className="navbar">
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <img
-              src="http://98.85.25.190:5000/uploads/Untitled design.jpeg"
+              src="/uploads/Untitled design.jpeg"
               alt="logo"
               className="navbar-logo"
               onError={(e) => { e.target.style.display = "none"; }}

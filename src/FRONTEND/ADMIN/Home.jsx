@@ -9,10 +9,10 @@ function Home() {
 
   useEffect(() => {
     Promise.allSettled([
-      axios.get("http://98.85.25.190:5000/customerslist"),
-      axios.get("http://98.85.25.190:5000/serviceproviderslist"),
-      axios.get("http://98.85.25.190:5000/get-orders"),
-      axios.get("http://98.85.25.190:5000/complainlist"),
+      axios.get("/customerslist"),
+      axios.get("/serviceproviderslist"),
+      axios.get("/get-orders"),
+      axios.get("/complainlist"),
     ]).then(([c, sp, o, comp]) => {
       setStats({
         customers: c.status === "fulfilled" ? (c.value.data?.length || 0) : 0,

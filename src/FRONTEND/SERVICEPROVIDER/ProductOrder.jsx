@@ -15,7 +15,7 @@ const ProductOrder = () => {
   const fetchOrders = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://98.85.25.190:5000/get-orders");
+      const res = await fetch("/get-orders");
       const data = await res.json();
       // Group by order_group_id if flat rows returned
       const grouped = {};
@@ -37,7 +37,7 @@ const ProductOrder = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Cancel this order?")) return;
     try {
-      await fetch(`http://98.85.25.190:5000/delete-order/${id}`, { method: "DELETE" });
+      await fetch(`/delete-order/${id}`, { method: "DELETE" });
       setOrders((prev) => prev.filter((o) => o.id !== id));
       toast.success("Order cancelled");
     } catch { toast.error("Failed to cancel order"); }

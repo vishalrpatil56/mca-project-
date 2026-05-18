@@ -8,7 +8,7 @@ const SerComplain = () => {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    fetch("http://98.85.25.190:5000/complainlist")
+    fetch("/complainlist")
       .then((r) => r.json())
       .then((data) => setComplaints(Array.isArray(data) ? data : []))
       .catch(() => setComplaints([]))
@@ -64,7 +64,7 @@ const SerComplain = () => {
     
 
     try {
-      const res = await fetch(`http://98.85.25.190:5000/complain/resolve/${id}`, {
+      const res = await fetch(`/complain/resolve/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -97,7 +97,7 @@ const SerComplain = () => {
     if (!window.confirm("Are you sure you want to delete this complaint?")) return;
 
     try {
-      const res = await fetch(`http://98.85.25.190:5000/complain/${id}`, {
+      const res = await fetch(`/complain/${id}`, {
         method: "DELETE",
       });
 

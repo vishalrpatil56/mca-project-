@@ -9,7 +9,7 @@ const CustomerFeedbackList = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get("http://98.85.25.190:5000/feedbacklist")
+    axios.get("/feedbacklist")
       .then((r) => setFeedback(r.data))
       .catch(() => {})
       .finally(() => setLoading(false));

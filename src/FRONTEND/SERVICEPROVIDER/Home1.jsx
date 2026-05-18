@@ -22,7 +22,7 @@ const Home1 = () => {
 
         <div className="sp-hero-img">
           <img
-            src="http://98.85.25.190:5000/uploads/6424688.webp"
+            src="/uploads/6424688.webp"
             alt="Appliances"
             onError={(e) => { e.target.style.display = "none"; }}
           />

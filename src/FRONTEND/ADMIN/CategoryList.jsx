@@ -16,7 +16,7 @@ function CategoryList() {
 
   const fetchCategories = async () => {
     try {
-      const r = await axios.get("http://98.85.25.190:5000/categories");
+      const r = await axios.get("/categories");
       setCategories(r.data);
     } catch { toast.error("Failed to load categories"); }
     finally { setLoading(false); }
@@ -25,7 +25,7 @@ function CategoryList() {
   const handleDelete = async (categoryId) => {
     if (!window.confirm("Delete this category and all its subcategories? This cannot be undone.")) return;
     try {
-      await axios.delete(`http://98.85.25.190:5000/categories/${categoryId}`);
+      await axios.delete(`/categories/${categoryId}`);
       setCategories((prev) => prev.filter((c) => c.p_cata_id !== categoryId));
       toast.success("Category deleted");
     } catch { toast.error("Failed to delete category"); }

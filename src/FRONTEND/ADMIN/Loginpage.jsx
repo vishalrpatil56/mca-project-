@@ -26,7 +26,7 @@ const LoginPage = () => {
     if (!validate()) return;
     setLoading(true);
     try {
-      const res = await fetch("http://98.85.25.190:5000/Adminpenal", {
+      const res = await fetch("/Adminpenal", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -52,7 +52,7 @@ const LoginPage = () => {
     <div className="admin-login-page">
       <div className="admin-login-card">
         <div className="admin-login-header">
-          <img src="http://98.85.25.190:5000/uploads/Untitled design.jpeg" alt="Logo" className="admin-login-logo" onError={(e) => { e.target.style.display = "none"; }} />
+          <img src="/uploads/Untitled design.jpeg" alt="Logo" className="admin-login-logo" onError={(e) => { e.target.style.display = "none"; }} />
           <h1>Admin Panel</h1>
           <p>Balaji Enterprises — Home Appliances & Services</p>
         </div>

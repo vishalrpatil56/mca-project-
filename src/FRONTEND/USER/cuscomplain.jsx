@@ -34,7 +34,7 @@ function Cuscomplain() {
     if (!validate()) return;
     setLoading(true);
     try {
-      await axios.post("http://98.85.25.190:5000/api/complaint", {
+      await axios.post("/api/complaint", {
         customer_id, complain_text: `${subject}: ${complain}`,
       });
       toast.success("Complaint submitted! We'll get back to you shortly.");
