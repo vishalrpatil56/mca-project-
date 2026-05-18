@@ -17,7 +17,7 @@ const ProductDetails = () => {
   const [editErrors, setEditErrors] = useState({});
 
   useEffect(() => {
-    axios.get("http://localhost:5000/categories").then((r) => setCategories(r.data)).catch(console.error);
+    axios.get("http://98.85.25.190:5000/categories").then((r) => setCategories(r.data)).catch(console.error);
   }, []);
 
   const handleChange = (e) => {
@@ -30,7 +30,7 @@ const ProductDetails = () => {
     setFormData({ ...formData, category_id: id, subcategory_id: "" });
     if (!id) return setSubCategories([]);
     try {
-      const res = await axios.get(`http://localhost:5000/categories/${id}/subcategories`);
+      const res = await axios.get(`http://98.85.25.190:5000/categories/${id}/subcategories`);
       setSubCategories(res.data);
     } catch { setSubCategories([]); }
   };
@@ -60,7 +60,7 @@ const ProductDetails = () => {
       fd.append("price", formData.price);
       fd.append("subcategory_id", formData.subcategory_id);
       fd.append("image", image);
-      await axios.post("http://localhost:5000/add-product", fd, { headers: { "Content-Type": "multipart/form-data" } });
+      await axios.post("http://98.85.25.190:5000/add-product", fd, { headers: { "Content-Type": "multipart/form-data" } });
       toast.success("Product added successfully!");
       setFormData({ name: "", description: "", long_description: "", price: "", category_id: "", subcategory_id: "" });
       setImage(null);
@@ -75,7 +75,7 @@ const ProductDetails = () => {
   const handleSearch = async () => {
     if (!searchId.trim()) return toast.warning("Enter a product ID");
     try {
-      const res = await axios.get(`http://localhost:5000/api/product/${searchId}`);
+      const res = await axios.get(`http://98.85.25.190:5000/api/product/${searchId}`);
       setProduct(res.data);
       setEditMode(false);
     } catch { toast.error("Product not found"); setProduct(null); }
@@ -84,7 +84,7 @@ const ProductDetails = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this product permanently?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/delete-product/${id}`);
+      await axios.delete(`http://98.85.25.190:5000/api/delete-product/${id}`);
       toast.success("Product deleted");
       setProduct(null);
     } catch { toast.error("Failed to delete product"); }
@@ -98,7 +98,7 @@ const ProductDetails = () => {
     setEditErrors(errs);
     if (Object.keys(errs).length > 0) return;
     try {
-      await axios.put(`http://localhost:5000/api/update-product/${product.product_id}`, {
+      await axios.put(`http://98.85.25.190:5000/api/update-product/${product.product_id}`, {
         name: product.product_name, description: product.product_description,
         long_description: product.long_description, price: product.product_price,
       });
@@ -201,7 +201,7 @@ const ProductDetails = () => {
               <div className="checkout-card" style={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 12, padding: 24 }}>
                 <div style={{ display: "flex", gap: 16, marginBottom: 16 }}>
                   <img
-                    src={`http://localhost:5000/uploads/${product.product_image}`}
+                    src={`http://98.85.25.190:5000/uploads/${product.product_image}`}
                     alt={product.product_name}
                     style={{ width: 80, height: 70, objectFit: "contain", borderRadius: 8, background: "#f7f7f7", padding: 4 }}
                     onError={(e) => { e.target.style.display = "none"; }}

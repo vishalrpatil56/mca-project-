@@ -32,7 +32,7 @@ const SPRegistrationPage = () => {
     if (!validate()) return;
     setLoading(true);
     try {
-      await axios.post("http://localhost:5000/api/serviceproviderregister", {
+      await axios.post("http://98.85.25.190:5000/api/serviceproviderregister", {
         userName: formData.userName, userContact: formData.userContact,
         userEmail: formData.userEmail, password: formData.password,
       });

@@ -8,11 +8,11 @@ export default defineConfig({
     proxy: {
       // Proxy all API calls to backend during development
       '/api': {
-        target: 'http://localhost:5000',
+        target: 'http://98.85.25.190:5000',
         changeOrigin: true,
       },
       '/uploads': {
-        target: 'http://localhost:5000',
+        target: 'http://98.85.25.190:5000',
         changeOrigin: true,
       },
     },

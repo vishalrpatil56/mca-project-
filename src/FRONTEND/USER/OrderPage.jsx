@@ -28,7 +28,7 @@ const Orders = () => {
   const fetchOrders = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("http://localhost:5000/get-orders");
+      const res = await axios.get("http://98.85.25.190:5000/get-orders");
       setOrders(res.data.orders || []);
     } catch { toast.error("Failed to load orders"); }
     finally { setLoading(false); }
@@ -37,7 +37,7 @@ const Orders = () => {
   const deleteOrder = async (orderId) => {
     if (!window.confirm("Cancel this order?")) return;
     try {
-      await axios.delete(`http://localhost:5000/delete-order/${orderId}`);
+      await axios.delete(`http://98.85.25.190:5000/delete-order/${orderId}`);
       toast.success("Order cancelled successfully");
       fetchOrders();
     } catch { toast.error("Failed to cancel order"); }

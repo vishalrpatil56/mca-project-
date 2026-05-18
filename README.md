@@ -32,7 +32,7 @@
 
 2. **Edit `.env`** with your MySQL password:
    ```
-   DB_HOST=localhost
+   DB_HOST=98.85.25.190
    DB_USER=root
    DB_PASSWORD=YOUR_MYSQL_PASSWORD_HERE
    DB_NAME=home_appliances_db
@@ -53,7 +53,7 @@
 
    ✅ You should see:
    ```
-   🚀 Server running on http://localhost:5000
+   🚀 Server running on http://98.85.25.190:5000
    ✅ MySQL connected to database: home_appliances_db
    ```
 
@@ -68,19 +68,19 @@ npm install
 npm run dev
 ```
 
-Open browser: **http://localhost:5173**
+Open browser: **http://98.85.25.190:5173**
 
 ---
 
 ## 🔑 Default Credentials
 
 ### Admin Panel
-- URL: `http://localhost:5173/Adminpenal`
+- URL: `http://98.85.25.190:5173/Adminpenal`
 - Check your `admin` table for credentials
 
 ### User Login
-- Register at: `http://localhost:5173/userregister`
-- Then login at: `http://localhost:5173/cuslogin`
+- Register at: `http://98.85.25.190:5173/userregister`
+- Then login at: `http://98.85.25.190:5173/cuslogin`
 
 ---
 

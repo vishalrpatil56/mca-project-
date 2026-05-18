@@ -14,8 +14,8 @@ const WashingM = () => {
     const fetchAll = async () => {
       try {
         const [front, top] = await Promise.all([
-          axios.get("http://localhost:5000/api/washingmachines/frontload"),
-          axios.get("http://localhost:5000/api/washingmachines/topload"),
+          axios.get("http://98.85.25.190:5000/api/washingmachines/frontload"),
+          axios.get("http://98.85.25.190:5000/api/washingmachines/topload"),
         ]);
         setFrontLoad(front.data);
         setTopLoad(top.data);

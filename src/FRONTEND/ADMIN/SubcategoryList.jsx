@@ -27,7 +27,7 @@ function SubcategoryList() {
   const fetchSubcategories = async () => {
     setLoading(true);
     try {
-      const r = await axios.get(`http://localhost:5000/categories/${categoryId}/subcategories`);
+      const r = await axios.get(`http://98.85.25.190:5000/categories/${categoryId}/subcategories`);
       setSubcategories(r.data);
     } catch { toast.error("Failed to load subcategories"); }
     finally { setLoading(false); }
@@ -36,7 +36,7 @@ function SubcategoryList() {
   const handleDelete = async (subcategoryId) => {
     if (!window.confirm("Delete this subcategory and all its products?")) return;
     try {
-      await axios.delete(`http://localhost:5000/subcategories/${subcategoryId}`);
+      await axios.delete(`http://98.85.25.190:5000/subcategories/${subcategoryId}`);
       setSubcategories((prev) => prev.filter((s) => s.p_sub_cata_id !== subcategoryId));
       toast.success("Subcategory deleted");
     } catch { toast.error("Failed to delete subcategory"); }
@@ -46,7 +46,7 @@ function SubcategoryList() {
     e.preventDefault();
     if (!newSubcat.name.trim()) { setFormError("Subcategory name is required"); return; }
     try {
-      await axios.post(`http://localhost:5000/categories/${categoryId}/subcategories`, newSubcat);
+      await axios.post(`http://98.85.25.190:5000/categories/${categoryId}/subcategories`, newSubcat);
       toast.success("Subcategory added successfully");
       setNewSubcat({ name: "", description: "" });
       setShowForm(false);

@@ -14,8 +14,8 @@ const Telivision = () => {
     const fetchAll = async () => {
       try {
         const [led, qled] = await Promise.all([
-          axios.get("http://localhost:5000/api/televisions/led"),
-          axios.get("http://localhost:5000/api/televisions/qled"),
+          axios.get("http://98.85.25.190:5000/api/televisions/led"),
+          axios.get("http://98.85.25.190:5000/api/televisions/qled"),
         ]);
         setLedProducts(led.data);
         setQledProducts(qled.data);

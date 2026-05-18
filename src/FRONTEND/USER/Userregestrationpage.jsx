@@ -46,7 +46,7 @@ const UserRegistrationPage = () => {
     setLoading(true);
     try {
       const { userName, userContact, userEmail, password } = formData;
-      const response = await axios.post("http://localhost:5000/api/register", { userName, userContact, userEmail, password });
+      const response = await axios.post("http://98.85.25.190:5000/api/register", { userName, userContact, userEmail, password });
       toast.success("Account created successfully! Please login.");
       setFormData({ userName: "", userContact: "", userEmail: "", password: "", confirmPassword: "" });
       setTimeout(() => navigate("/cuslogin"), 1500);

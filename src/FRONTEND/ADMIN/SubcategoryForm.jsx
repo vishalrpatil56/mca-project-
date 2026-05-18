@@ -46,12 +46,12 @@ function SubcategoryForm({
     try {
       if (subcategory) {
         await axios.put(
-          `http://localhost:5000/subcategories/${subcategory.p_sub_cata_id}`,
+          `http://98.85.25.190:5000/subcategories/${subcategory.p_sub_cata_id}`,
           { name, description, category_id: categoryId }
         );
       } else {
         await axios.post(
-          `http://localhost:5000/categories/${categoryId}/subcategories`,
+          `http://98.85.25.190:5000/categories/${categoryId}/subcategories`,
           { name, description }
         );
       }

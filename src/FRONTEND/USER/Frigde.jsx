@@ -16,8 +16,8 @@ const Fridge = () => {
     const fetchAll = async () => {
       try {
         const [s, d, sb, t] = await Promise.all([
-          axios.get("http://localhost:5000/api/refrigerators/singledoor"),
-          axios.get("http://localhost:5000/api/refrigerators/doubledoor"),
+          axios.get("http://98.85.25.190:5000/api/refrigerators/singledoor"),
+          axios.get("http://98.85.25.190:5000/api/refrigerators/doubledoor"),
           
         ]);
         setSingle(s.data); setDouble(d.data); setSide(sb.data); setTriple(t.data);

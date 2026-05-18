@@ -28,7 +28,7 @@ const Header1 = () => {
       <nav className="sp-nav">
         <Link to="/serviceproviderdash" className="sp-logo">
           <img
-            src="http://localhost:5000/uploads/Untitled design.jpeg"
+            src="http://98.85.25.190:5000/uploads/Untitled design.jpeg"
             alt="logo"
             className="sp-logo-img"
             onError={(e) => { e.target.style.display = "none"; }}

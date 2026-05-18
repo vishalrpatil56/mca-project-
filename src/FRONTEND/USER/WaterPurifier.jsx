@@ -12,7 +12,7 @@ const WaterPurifier = () => {
   useEffect(() => {
     const fetchAll = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/waterpurifiers");
+        const res = await axios.get("http://98.85.25.190:5000/api/waterpurifiers");
         setProducts(res.data);
       } catch (err) {
         console.error("Error fetching water purifiers:", err);

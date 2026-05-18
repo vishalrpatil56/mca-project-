@@ -14,8 +14,8 @@ const AirCon = () => {
     const fetchAll = async () => {
       try {
         const [s, w] = await Promise.all([
-          axios.get("http://localhost:5000/api/airconditioners/split"),
-          axios.get("http://localhost:5000/api/airconditioners/window"),
+          axios.get("http://98.85.25.190:5000/api/airconditioners/split"),
+          axios.get("http://98.85.25.190:5000/api/airconditioners/window"),
         ]);
         setSplit(s.data);
         setWindow_(w.data);

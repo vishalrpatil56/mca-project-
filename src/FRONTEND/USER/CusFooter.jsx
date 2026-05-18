@@ -11,7 +11,7 @@ const CusFooter = () => {
           {/* Brand */}
           <div className="footer-brand">
             <div className="footer-logo">
-              <img src="http://localhost:5000/uploads/Untitled design.jpeg" alt="Balaji Enterprises" onError={(e) => { e.target.style.display="none"; }} />
+              <img src="http://98.85.25.190:5000/uploads/Untitled design.jpeg" alt="Balaji Enterprises" onError={(e) => { e.target.style.display="none"; }} />
               <span>Balaji<strong>Enterprises</strong></span>
             </div>
             <p className="footer-tagline">Your trusted partner for premium home appliances. Quality products, expert service, unbeatable prices.</p>

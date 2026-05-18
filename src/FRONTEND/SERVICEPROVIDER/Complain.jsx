@@ -27,7 +27,7 @@ const handleSubmit = async (e) => {
     const customer_id = localStorage.getItem("user_id");
 
     const response = await axios.post(
-      "http://localhost:5000/api/complaint",
+      "http://98.85.25.190:5000/api/complaint",
       {
         customer_id,
         complain_text: complaint,

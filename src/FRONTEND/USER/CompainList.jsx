@@ -9,7 +9,7 @@ const CustomerComplaintList = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/usercomplainlist")
+    axios.get("http://98.85.25.190:5000/usercomplainlist")
       .then((r) => setComplaints(r.data.complaints || []))
       .catch(() => {})
       .finally(() => setLoading(false));

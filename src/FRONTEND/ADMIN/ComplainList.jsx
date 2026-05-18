@@ -11,7 +11,7 @@ const ComplainList = () => {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:5000/complainlist")
+    axios.get("http://98.85.25.190:5000/complainlist")
       .then((r) => setComplains(r.data))
       .catch(() => toast.error("Failed to load complaints"))
       .finally(() => setLoading(false));
@@ -20,7 +20,7 @@ const ComplainList = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this complaint?")) return;
     try {
-      await axios.delete(`http://localhost:5000/complain/${id}`);
+      await axios.delete(`http://98.85.25.190:5000/complain/${id}`);
       setComplains((prev) => prev.filter((c) => c.complain_id !== id));
       toast.success("Complaint deleted");
     } catch { toast.error("Failed to delete complaint"); }

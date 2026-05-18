@@ -26,7 +26,7 @@ app.use("/api/payment", paymentRoutes);
 
 // ── MySQL Connection (with auto-reconnect) ──────────────────
 const dbConfig = {
-  host:     process.env.DB_HOST     || "localhost",
+  host:     process.env.DB_HOST     || "98.85.25.190",
   user:     process.env.DB_USER     || "root",
   password: process.env.DB_PASSWORD || "root",
   database: process.env.DB_NAME     || "home_appliances_db",
@@ -544,7 +544,7 @@ function productQuery(subCataName, res) {
 }
 
 // ── Debug: see all subcategory names in your DB ──────────────
-// Visit http://localhost:5000/api/debug/subcategories
+// Visit http://98.85.25.190:5000/api/debug/subcategories
 app.get("/api/debug/subcategories", (req, res) => {
   db.query("SELECT * FROM product_sub_category ORDER BY p_cata_id", (err, rows) => {
     if (err) return res.status(500).json({ error: err.message });

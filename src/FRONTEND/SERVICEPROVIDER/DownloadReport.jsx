@@ -126,7 +126,7 @@ const sgst = gst / 2;
             
             {/* LOGO */}
             <Image
-              src="http://localhost:5000/uploads/Untitled design.jpeg"
+              src="http://98.85.25.190:5000/uploads/Untitled design.jpeg"
               style={{
                 width: 80,
                 height: 50,

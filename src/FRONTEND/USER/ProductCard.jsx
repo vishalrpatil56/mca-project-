@@ -5,7 +5,7 @@ import { FiInfo } from "react-icons/fi";
 import { toast } from "react-toastify";
 import "../../theme.css";
 
-const BASE_URL = "http://localhost:5000";
+const BASE_URL = "http://98.85.25.190:5000";
 
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();

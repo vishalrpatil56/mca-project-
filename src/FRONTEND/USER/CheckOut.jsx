@@ -39,7 +39,7 @@ const CheckOut = () => {
     // Fetch full profile for phone/email
     const userId = localStorage.getItem("user_id");
     if (userId && token) {
-      axios.get(`http://localhost:5000/api/user/${userId}`)
+      axios.get(`http://98.85.25.190:5000/api/user/${userId}`)
         .then((res) => {
           const u = res.data;
           setFormData((p) => ({
@@ -87,7 +87,7 @@ const CheckOut = () => {
   // ── Place order in DB ─────────────────────────────────────
   const placeOrderInDB = async (paymentMode) => {
     const userId = localStorage.getItem("user_id");
-    const res = await axios.post("http://localhost:5000/place-order", {
+    const res = await axios.post("http://98.85.25.190:5000/place-order", {
       customer_id: userId || 0,
       products: cart.map((item) => ({
         product_id: item.id,
@@ -134,7 +134,7 @@ const CheckOut = () => {
 
     setLoading(true);
     try {
-      const res = await axios.post("http://localhost:5000/api/payment/create-order", {
+      const res = await axios.post("http://98.85.25.190:5000/api/payment/create-order", {
         amount: getTotalPrice(),
       });
 
@@ -309,7 +309,7 @@ const CheckOut = () => {
                     <img
                       src={item.image}
                       alt={item.name}
-                      onError={(e) => { e.target.src = "http://localhost:5000/uploads/home.png"; }}
+                      onError={(e) => { e.target.src = "http://98.85.25.190:5000/uploads/home.png"; }}
                     />
                     <div className="co-item-info">
                       <div className="co-item-name">{item.name}</div>

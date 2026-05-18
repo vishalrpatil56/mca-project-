@@ -60,7 +60,7 @@ function CusHeader() {
     <header className="cus-header">
       <nav className="cus-nav">
         <Link to="/" className="cus-logo">
-          <img src="http://localhost:5000/uploads/Untitled design.jpeg" alt="Balaji" className="cus-logo-img" onError={(e) => { e.target.style.display="none"; }} />
+          <img src="http://98.85.25.190:5000/uploads/Untitled design.jpeg" alt="Balaji" className="cus-logo-img" onError={(e) => { e.target.style.display="none"; }} />
           <span className="cus-logo-text">Balaji<span>Enterprises</span></span>
         </Link>
 

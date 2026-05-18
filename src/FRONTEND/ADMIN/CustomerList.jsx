@@ -11,7 +11,7 @@ const CustomerList = () => {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:5000/customerslist")
+    axios.get("http://98.85.25.190:5000/customerslist")
       .then((r) => setCustomers(r.data))
       .catch(() => toast.error("Failed to load customers"))
       .finally(() => setLoading(false));
@@ -20,7 +20,7 @@ const CustomerList = () => {
   const deleteCustomer = async (userId) => {
     if (!window.confirm("Delete this customer account? This cannot be undone.")) return;
     try {
-      await axios.delete(`http://localhost:5000/customer/${userId}`);
+      await axios.delete(`http://98.85.25.190:5000/customer/${userId}`);
       setCustomers((prev) => prev.filter((c) => c.user_id !== userId));
       toast.success("Customer deleted successfully");
     } catch { toast.error("Failed to delete customer"); }
