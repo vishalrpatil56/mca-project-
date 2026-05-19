@@ -10,7 +10,7 @@ import CusFooter from "./CusFooter";
 import "../../theme.css";
 import "./Styles/CusHome.css";
 
-const BASE = "";
+const BASE = "http://98.85.25.190:5000";
 
 const slides = [
   { image: `${BASE}/uploads/Ac.png`, label: "Air Conditioners", sub: "Stay cool with inverter technology ACs", link: "/aircon" },
