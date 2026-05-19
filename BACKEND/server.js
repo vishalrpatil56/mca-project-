@@ -751,8 +751,8 @@ app.get("/get-orders", verifyToken, (req, res) => {
       GROUP BY ${groupParts}
       ORDER BY ${has("order_date") ? "po.order_date" : groupId} DESC
     `;
-     const customerId = req.user.id;
-    db.query(sql, (err, result) => {
+     const customerId = req.user.userId;
+    db.query(sql, [customerId],(err, result) => {
       if (err) {
         console.error("get-orders error:", err.message);
         return res.status(500).json({ error: "DB error: " + err.message });
