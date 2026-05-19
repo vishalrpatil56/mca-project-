@@ -704,106 +704,57 @@ app.post("/place-order", async (req, res) => {
   });
 });
 
-// ── GET ORDERS — safe query that handles old DB schemas ──
+// ── GET ORDERS BY LOGGED-IN USER ──
 app.get("/get-orders/:customer_id", (req, res) => {
+  const customerId = parseInt(req.params.customer_id, 10);
 
-  // Verify JWT token so users can only see their own orders
-  const authHeader = req.headers.authorization;
-  if (authHeader && authHeader.startsWith("Bearer ")) {
-    const token = authHeader.split(" ")[1];
-    try {
-      const decoded = jwt.verify(token, JWT_SECRET);
-      if (String(decoded.userId) !== String(req.params.customer_id)) {
-        return res.status(403).json({ error: "Forbidden: cannot view other users' orders" });
-      }
-    } catch (e) {
-      return res.status(401).json({ error: "Invalid or expired token" });
-    }
-  }
-
-  const customerId = req.params.customer_id;
-
-  // Reject if customer_id is 0 or missing (unlinked orders)
-  if (!customerId || customerId === "0") {
+  // Must be a valid user id
+  if (!customerId || isNaN(customerId) || customerId <= 0) {
     return res.json({ orders: [] });
   }
 
-  db.query("DESCRIBE product_order", (err, cols) => {
-    if (err) return res.status(500).json({ error: "Cannot read DB schema" });
+  const sql = `
+    SELECT
+      po.order_group_id AS order_id,
+      po.customer_id,
+      po.name,
+      po.email,
+      po.phone,
+      po.address,
+      po.total_price,
+      po.order_date,
+      po.payment_mode,
+      JSON_ARRAYAGG(JSON_OBJECT(
+        'product_id', po.product_id,
+        'name', COALESCE(pd.product_name, 'Unknown Product'),
+        'price', COALESCE(pd.product_price, 0),
+        'quantity', po.quantity
+      )) AS products
+    FROM product_order po
+    LEFT JOIN product_details pd ON po.product_id = pd.product_id
+    WHERE po.customer_id = ?
+    GROUP BY po.order_group_id, po.customer_id, po.name, po.email,
+             po.phone, po.address, po.total_price, po.order_date, po.payment_mode
+    ORDER BY po.order_date DESC
+  `;
 
-    const colNames = cols.map((c) => c.Field);
+  db.query(sql, [customerId], (err, result) => {
+    if (err) {
+      console.error("get-orders error:", err.message);
+      return res.status(500).json({ error: "DB error: " + err.message });
+    }
 
-    const has = (col) => colNames.includes(col);
+    const orders = result.map((row) => ({
+      ...row,
+      products:
+        typeof row.products === "string"
+          ? JSON.parse(row.products)
+          : row.products || [],
+    }));
 
-    const selectParts = [
-      has("order_group_id") ? "po.order_group_id AS order_id" : "po.order_id AS order_id",
-      has("name") ? "po.name" : "NULL AS name",
-      has("email") ? "po.email" : "NULL AS email",
-      has("phone") ? "po.phone" : "NULL AS phone",
-      has("address") ? "po.address" : "NULL AS address",
-      has("total_price") ? "po.total_price" : "0 AS total_price",
-      has("order_date") ? "po.order_date" : "NULL AS order_date",
-      has("payment_mode") ? "po.payment_mode" : "'COD' AS payment_mode",
-    ];
-
-    const groupId = has("order_group_id")
-      ? "po.order_group_id"
-      : "po.order_id";
-
-    const groupParts = [
-      groupId,
-      has("name") ? "po.name" : "",
-      has("email") ? "po.email" : "",
-      has("phone") ? "po.phone" : "",
-      has("address") ? "po.address" : "",
-      has("total_price") ? "po.total_price" : "",
-      has("order_date") ? "po.order_date" : "",
-      has("payment_mode") ? "po.payment_mode" : "",
-    ].filter(Boolean).join(", ");
-
-    const sql = `
-      SELECT
-        ${selectParts.join(",\n")},
-        JSON_ARRAYAGG(JSON_OBJECT(
-          'product_id', po.product_id,
-          'name', COALESCE(pd.product_name, 'Unknown Product'),
-          'price', COALESCE(pd.product_price, 0),
-          'quantity', ${has("quantity") ? "po.quantity" : "1"}
-        )) AS products
-      FROM product_order po
-      LEFT JOIN product_details pd
-      ON po.product_id = pd.product_id
-
-      WHERE po.customer_id = ?
-
-      GROUP BY ${groupParts}
-
-      ORDER BY ${has("order_date") ? "po.order_date" : groupId} DESC
-    `;
-
-    db.query(sql, [customerId], (err, result) => {
-
-      if (err) {
-        console.error(err);
-        return res.status(500).json({
-          error: "DB error"
-        });
-      }
-
-      const orders = result.map((row) => ({
-        ...row,
-        products:
-          typeof row.products === "string"
-            ? JSON.parse(row.products)
-            : row.products || [],
-      }));
-
-      res.json({ orders });
-
-    });
-
+    console.log(`[get-orders] customer_id=${customerId} → ${orders.length} orders`);
+    res.json({ orders });
   });
-
 });
 
 app.delete("/delete-order/:groupId", (req, res) => {

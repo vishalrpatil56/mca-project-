@@ -31,7 +31,10 @@ const Orders = () => {
       const user_id = localStorage.getItem("user_id");
       const token = localStorage.getItem("token");
 
-      if (!user_id || user_id === "0") {
+      console.log("[Orders] Fetching for user_id:", user_id);
+
+      if (!user_id || user_id === "0" || user_id === null) {
+        toast.warning("Please login again to view your orders");
         setOrders([]);
         return;
       }
@@ -39,8 +42,13 @@ const Orders = () => {
       const res = await axios.get(`/get-orders/${user_id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
+
+      console.log("[Orders] Response:", res.data);
       setOrders(res.data.orders || []);
-    } catch { toast.error("Failed to load orders"); }
+    } catch (err) {
+      console.error("[Orders] Error:", err);
+      toast.error("Failed to load orders");
+    }
     finally { setLoading(false); }
   };
 
