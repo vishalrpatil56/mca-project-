@@ -16,7 +16,7 @@ const Orders = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("authtoken");
     if (!token) {
       toast.warning("Please login to view your orders");
       navigate("/cuslogin");
