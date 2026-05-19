@@ -28,13 +28,9 @@ const Orders = () => {
   const fetchOrders = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem("token");
+      const userId = localStorage.getItem("user_id");
 
-      const res = await axios.get("/get-orders", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+const res = await axios.get(`/get-orders?customer_id=${userId}`);
       setOrders(res.data.orders || []);
     } catch { toast.error("Failed to load orders"); }
     finally { setLoading(false); }

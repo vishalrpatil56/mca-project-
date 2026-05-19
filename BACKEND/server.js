@@ -725,7 +725,7 @@ app.post("/place-order", async (req, res) => {
 });
 
 // ── GET ORDERS — safe query that handles old DB schemas ──
-app.get("/get-orders", verifyToken, (req, res) => {
+app.get("/get-orders",  (req, res) => {
   // First check which columns exist in product_order
   db.query("DESCRIBE product_order", (err, cols) => {
     if (err) return res.status(500).json({ error: "Cannot read DB schema" });
@@ -773,7 +773,7 @@ app.get("/get-orders", verifyToken, (req, res) => {
       GROUP BY ${groupParts}
       ORDER BY ${has("order_date") ? "po.order_date" : groupId} DESC
     `;
-     const customerId = req.user.userId;
+     const customerId = req.query.customer_id;
     db.query(sql, [customerId],(err, result) => {
       if (err) {
         console.error("get-orders error:", err.message);
