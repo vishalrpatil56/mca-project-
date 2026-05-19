@@ -29,7 +29,12 @@ const Orders = () => {
     setLoading(true);
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get("/get-orders");
+
+      const res = await axios.get("/get-orders", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setOrders(res.data.orders || []);
     } catch { toast.error("Failed to load orders"); }
     finally { setLoading(false); }
