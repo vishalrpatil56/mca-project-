@@ -16,7 +16,6 @@ const JWT_SECRET = process.env.JWT_SECRET || "balaji_secret_2025";
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // ── Routes from separate files ──────────────────────────────
 const productRoutes = require("./productRoutes");
@@ -704,7 +703,7 @@ app.post("/place-order", async (req, res) => {
 });
 
 // ── GET ORDERS — safe query that handles old DB schemas ──
-app.get("/get-orders", (req, res) => {
+app.get("/get-orders", verifyToken, (req, res) => {
   // First check which columns exist in product_order
   db.query("DESCRIBE product_order", (err, cols) => {
     if (err) return res.status(500).json({ error: "Cannot read DB schema" });
@@ -748,10 +747,11 @@ app.get("/get-orders", (req, res) => {
         )) AS products
       FROM product_order po
       LEFT JOIN product_details pd ON po.product_id = pd.product_id
+      WHERE po.customer_id = ?
       GROUP BY ${groupParts}
       ORDER BY ${has("order_date") ? "po.order_date" : groupId} DESC
     `;
-
+     const customerId = req.user.id;
     db.query(sql, (err, result) => {
       if (err) {
         console.error("get-orders error:", err.message);
@@ -782,7 +782,12 @@ app.delete("/delete-order/:groupId", (req, res) => {
 //  SERVE FRONTEND (Production)
 // ═══════════════════════════════════════════════════════════
 
+// SERVE UPLOADS
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// SERVE FRONTEND
 app.use(express.static(path.join(__dirname, "../dist")));
+
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../dist/index.html"));
 });
