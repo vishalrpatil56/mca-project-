@@ -29,7 +29,9 @@ const Orders = () => {
     setLoading(true);
     try {
       
-      const res = await axios.get("/get-orders");
+      const user_id = localStorage.getItem("user_id");
+
+const res = await axios.get(`/get-orders/${user_id}`);
       setOrders(res.data.orders || []);
     } catch { toast.error("Failed to load orders"); }
     finally { setLoading(false); }

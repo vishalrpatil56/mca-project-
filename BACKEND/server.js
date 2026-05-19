@@ -703,42 +703,46 @@ app.post("/place-order", async (req, res) => {
 });
 
 // ── GET ORDERS — safe query that handles old DB schemas ──
-app.get("/get-orders", (req, res) => {
-  // First check which columns exist in product_order
+app.get("/get-orders/:customer_id", (req, res) => {
+
+  const customerId = req.params.customer_id;
+
   db.query("DESCRIBE product_order", (err, cols) => {
     if (err) return res.status(500).json({ error: "Cannot read DB schema" });
 
     const colNames = cols.map((c) => c.Field);
+
     const has = (col) => colNames.includes(col);
 
-    // Build SELECT list based on actual columns
     const selectParts = [
       has("order_group_id") ? "po.order_group_id AS order_id" : "po.order_id AS order_id",
-      has("name")           ? "po.name"        : "NULL AS name",
-      has("email")          ? "po.email"       : "NULL AS email",
-      has("phone")          ? "po.phone"       : "NULL AS phone",
-      has("address")        ? "po.address"     : "NULL AS address",
-      has("total_price")    ? "po.total_price" : "0 AS total_price",
-      has("order_date")     ? "po.order_date"  : "NULL AS order_date",
-      has("payment_mode")   ? "po.payment_mode": "'COD' AS payment_mode",
+      has("name") ? "po.name" : "NULL AS name",
+      has("email") ? "po.email" : "NULL AS email",
+      has("phone") ? "po.phone" : "NULL AS phone",
+      has("address") ? "po.address" : "NULL AS address",
+      has("total_price") ? "po.total_price" : "0 AS total_price",
+      has("order_date") ? "po.order_date" : "NULL AS order_date",
+      has("payment_mode") ? "po.payment_mode" : "'COD' AS payment_mode",
     ];
 
-    const groupId = has("order_group_id") ? "po.order_group_id" : "po.order_id";
+    const groupId = has("order_group_id")
+      ? "po.order_group_id"
+      : "po.order_id";
 
     const groupParts = [
       groupId,
-      has("name")        ? "po.name"        : "",
-      has("email")       ? "po.email"       : "",
-      has("phone")       ? "po.phone"       : "",
-      has("address")     ? "po.address"     : "",
+      has("name") ? "po.name" : "",
+      has("email") ? "po.email" : "",
+      has("phone") ? "po.phone" : "",
+      has("address") ? "po.address" : "",
       has("total_price") ? "po.total_price" : "",
-      has("order_date")  ? "po.order_date"  : "",
-      has("payment_mode")? "po.payment_mode": "",
+      has("order_date") ? "po.order_date" : "",
+      has("payment_mode") ? "po.payment_mode" : "",
     ].filter(Boolean).join(", ");
 
     const sql = `
-      SELECT 
-        ${selectParts.join(",\n        ")},
+      SELECT
+        ${selectParts.join(",\n")},
         JSON_ARRAYAGG(JSON_OBJECT(
           'product_id', po.product_id,
           'name', COALESCE(pd.product_name, 'Unknown Product'),
@@ -746,23 +750,39 @@ app.get("/get-orders", (req, res) => {
           'quantity', ${has("quantity") ? "po.quantity" : "1"}
         )) AS products
       FROM product_order po
-      LEFT JOIN product_details pd ON po.product_id = pd.product_id
+      LEFT JOIN product_details pd
+      ON po.product_id = pd.product_id
+
+      WHERE po.customer_id = ?
+
       GROUP BY ${groupParts}
+
       ORDER BY ${has("order_date") ? "po.order_date" : groupId} DESC
     `;
 
-    db.query(sql, (err, result) => {
+    db.query(sql, [customerId], (err, result) => {
+
       if (err) {
-        console.error("get-orders error:", err.message);
-        return res.status(500).json({ error: "DB error: " + err.message });
+        console.error(err);
+        return res.status(500).json({
+          error: "DB error"
+        });
       }
+
       const orders = result.map((row) => ({
         ...row,
-        products: typeof row.products === "string" ? JSON.parse(row.products) : (row.products || []),
+        products:
+          typeof row.products === "string"
+            ? JSON.parse(row.products)
+            : row.products || [],
       }));
+
       res.json({ orders });
+
     });
+
   });
+
 });
 
 app.delete("/delete-order/:groupId", (req, res) => {
