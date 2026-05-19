@@ -12,28 +12,6 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const JWT_SECRET = process.env.JWT_SECRET || "balaji_secret_2025";
 
-const verifyToken = (req, res, next) => {
-  const authHeader = req.headers.authorization;
-
-  if (!authHeader) {
-    return res.status(401).json({
-      message: "Token missing",
-    });
-  }
-
-  const token = authHeader.split(" ")[1];
-
-  jwt.verify(token, JWT_SECRET, (err, decoded) => {
-    if (err) {
-      return res.status(403).json({
-        message: "Invalid token",
-      });
-    }
-
-    req.user = decoded;
-    next();
-  });
-};
 // ── Middleware ──────────────────────────────────────────────
 app.use(cors());
 app.use(express.json());
@@ -725,7 +703,7 @@ app.post("/place-order", async (req, res) => {
 });
 
 // ── GET ORDERS — safe query that handles old DB schemas ──
-app.get("/get-orders",  (req, res) => {
+app.get("/get-orders", (req, res) => {
   // First check which columns exist in product_order
   db.query("DESCRIBE product_order", (err, cols) => {
     if (err) return res.status(500).json({ error: "Cannot read DB schema" });
@@ -769,12 +747,11 @@ app.get("/get-orders",  (req, res) => {
         )) AS products
       FROM product_order po
       LEFT JOIN product_details pd ON po.product_id = pd.product_id
-      WHERE po.customer_id = ?
       GROUP BY ${groupParts}
       ORDER BY ${has("order_date") ? "po.order_date" : groupId} DESC
     `;
-     const customerId = req.query.customer_id;
-    db.query(sql, [customerId],(err, result) => {
+
+    db.query(sql, (err, result) => {
       if (err) {
         console.error("get-orders error:", err.message);
         return res.status(500).json({ error: "DB error: " + err.message });

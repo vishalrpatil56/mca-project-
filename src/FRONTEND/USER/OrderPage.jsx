@@ -16,7 +16,7 @@ const Orders = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("authtoken");
+    const token = localStorage.getItem("token");
     if (!token) {
       toast.warning("Please login to view your orders");
       navigate("/cuslogin");
@@ -28,9 +28,8 @@ const Orders = () => {
   const fetchOrders = async () => {
     setLoading(true);
     try {
-      const userId = localStorage.getItem("user_id");
-
-const res = await axios.get(`/get-orders?customer_id=${userId}`);
+      
+      const res = await axios.get("/get-orders");
       setOrders(res.data.orders || []);
     } catch { toast.error("Failed to load orders"); }
     finally { setLoading(false); }
