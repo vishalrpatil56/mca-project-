@@ -75,6 +75,8 @@ function autoMigrateDB() {
     `ALTER TABLE product_order ADD COLUMN IF NOT EXISTS order_date DATETIME DEFAULT CURRENT_TIMESTAMP`,
     // Update existing rows to have an order_group_id
     `UPDATE product_order SET order_group_id = CONCAT('ORD-', order_id) WHERE order_group_id IS NULL`,
+    // Add customer_id to product_order if missing
+    `ALTER TABLE product_order ADD COLUMN IF NOT EXISTS customer_id INT DEFAULT 0`,
   ];
 
   migrations.forEach((sql) => {
@@ -705,7 +707,26 @@ app.post("/place-order", async (req, res) => {
 // ── GET ORDERS — safe query that handles old DB schemas ──
 app.get("/get-orders/:customer_id", (req, res) => {
 
+  // Verify JWT token so users can only see their own orders
+  const authHeader = req.headers.authorization;
+  if (authHeader && authHeader.startsWith("Bearer ")) {
+    const token = authHeader.split(" ")[1];
+    try {
+      const decoded = jwt.verify(token, JWT_SECRET);
+      if (String(decoded.userId) !== String(req.params.customer_id)) {
+        return res.status(403).json({ error: "Forbidden: cannot view other users' orders" });
+      }
+    } catch (e) {
+      return res.status(401).json({ error: "Invalid or expired token" });
+    }
+  }
+
   const customerId = req.params.customer_id;
+
+  // Reject if customer_id is 0 or missing (unlinked orders)
+  if (!customerId || customerId === "0") {
+    return res.json({ orders: [] });
+  }
 
   db.query("DESCRIBE product_order", (err, cols) => {
     if (err) return res.status(500).json({ error: "Cannot read DB schema" });
