@@ -705,55 +705,69 @@ app.post("/place-order", async (req, res) => {
 });
 
 // ── GET ORDERS BY LOGGED-IN USER ──
-app.get("/get-orders/:customer_id", (req, res) => {
-  const customerId = parseInt(req.params.customer_id, 10);
+app.get("/get-orders", (req, res) => {
+  // First check which columns exist in product_order
+  db.query("DESCRIBE product_order", (err, cols) => {
+    if (err) return res.status(500).json({ error: "Cannot read DB schema" });
 
-  // Must be a valid user id
-  if (!customerId || isNaN(customerId) || customerId <= 0) {
-    return res.json({ orders: [] });
-  }
+    const colNames = cols.map((c) => c.Field);
+    const has = (col) => colNames.includes(col);
 
-  const sql = `
-    SELECT
-      po.order_group_id AS order_id,
-      po.customer_id,
-      po.name,
-      po.email,
-      po.phone,
-      po.address,
-      po.total_price,
-      po.order_date,
-      po.payment_mode,
-      JSON_ARRAYAGG(JSON_OBJECT(
-        'product_id', po.product_id,
-        'name', COALESCE(pd.product_name, 'Unknown Product'),
-        'price', COALESCE(pd.product_price, 0),
-        'quantity', po.quantity
-      )) AS products
-    FROM product_order po
-    LEFT JOIN product_details pd ON po.product_id = pd.product_id
-    WHERE po.customer_id = ?
-    GROUP BY po.order_group_id, po.customer_id, po.name, po.email,
-             po.phone, po.address, po.total_price, po.order_date, po.payment_mode
-    ORDER BY po.order_date DESC
-  `;
+    // Build SELECT list based on actual columns
+    const selectParts = [
+      has("order_group_id") ? "po.order_group_id AS order_id" : "po.order_id AS order_id",
+      has("name")           ? "po.name"        : "NULL AS name",
+      has("email")          ? "po.email"       : "NULL AS email",
+      has("phone")          ? "po.phone"       : "NULL AS phone",
+      has("address")        ? "po.address"     : "NULL AS address",
+      has("total_price")    ? "po.total_price" : "0 AS total_price",
+      has("order_date")     ? "po.order_date"  : "NULL AS order_date",
+      has("payment_mode")   ? "po.payment_mode": "'COD' AS payment_mode",
+    ];
 
-  db.query(sql, [customerId], (err, result) => {
-    if (err) {
-      console.error("get-orders error:", err.message);
-      return res.status(500).json({ error: "DB error: " + err.message });
-    }
+    const groupId = has("order_group_id") ? "po.order_group_id" : "po.order_id";
 
-    const orders = result.map((row) => ({
-      ...row,
-      products:
-        typeof row.products === "string"
-          ? JSON.parse(row.products)
-          : row.products || [],
-    }));
+    const groupParts = [
+      groupId,
+      has("name")        ? "po.name"        : "",
+      has("email")       ? "po.email"       : "",
+      has("phone")       ? "po.phone"       : "",
+      has("address")     ? "po.address"     : "",
+      has("total_price") ? "po.total_price" : "",
+      has("order_date")  ? "po.order_date"  : "",
+      has("payment_mode")? "po.payment_mode": "",
+    ].filter(Boolean).join(", ");
+      const customerId = req.query.customer_id;
+    const whereClause = customerId
+      ? `WHERE po.customer_id = ${db.escape(customerId)}`
+      : "";
+    const sql = `
+      SELECT 
+        ${selectParts.join(",\n        ")},
+        JSON_ARRAYAGG(JSON_OBJECT(
+          'product_id', po.product_id,
+          'name', COALESCE(pd.product_name, 'Unknown Product'),
+          'price', COALESCE(pd.product_price, 0),
+          'quantity', ${has("quantity") ? "po.quantity" : "1"}
+        )) AS products
+      FROM product_order po
+      LEFT JOIN product_details pd ON po.product_id = pd.product_id
+      ${whereClause}
+      GROUP BY ${groupParts}
+      ORDER BY ${has("order_date") ? "po.order_date" : groupId} DESC
+    `;
 
-    console.log(`[get-orders] customer_id=${customerId} → ${orders.length} orders`);
-    res.json({ orders });
+    db.query(sql, (err, result) => {
+      if (err) {
+        console.error("get-orders error:", err.message);
+        return res.status(500).json({ error: "DB error: " + err.message });
+      }
+      const orders = result.map((row) => ({
+        ...row,
+        products: typeof row.products === "string" ? JSON.parse(row.products) : (row.products || []),
+      }));
+      res.json({ orders });
+    });
   });
 });
 

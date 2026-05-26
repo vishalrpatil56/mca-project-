@@ -41,6 +41,7 @@ const Orders = () => {
 
       const res = await axios.get(`/get-orders/${user_id}`, {
         headers: { Authorization: `Bearer ${token}` },
+        params: { customer_id: user_id },
       });
 
       console.log("[Orders] Response:", res.data);
