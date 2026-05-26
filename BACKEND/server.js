@@ -707,6 +707,8 @@ app.post("/place-order", async (req, res) => {
 
 // ── GET ORDERS BY LOGGED-IN USER ──
 app.get("/get-orders/:user_id", (req, res) => {
+  console.log("PARAMS:", req.params);  // ← add this
+  console.log("QUERY:", req.query);    // ← add this
   const customerId = req.params.user_id;  // ← FIXED: params not query
 
   if (!customerId || customerId === "0") {
