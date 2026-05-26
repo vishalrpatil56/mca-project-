@@ -39,7 +39,8 @@ const Orders = () => {
         return;
       }
 
-      const res = await axios.get(`/get-orders`, {
+     
+const res = await axios.get(`/get-orders/${user_id}`, {
   headers: { Authorization: `Bearer ${token}` },
   params: { customer_id: user_id },
 });
