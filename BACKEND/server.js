@@ -704,43 +704,45 @@ app.post("/place-order", async (req, res) => {
   });
 });
 
+
 // ── GET ORDERS BY LOGGED-IN USER ──
-app.get("/get-orders", (req, res) => {
-  // First check which columns exist in product_order
+app.get("/get-orders/:user_id", (req, res) => {
+  const customerId = req.params.user_id;  // ← FIXED: params not query
+
+  if (!customerId || customerId === "0") {
+    return res.status(400).json({ error: "Invalid customer_id" });
+  }
+
   db.query("DESCRIBE product_order", (err, cols) => {
     if (err) return res.status(500).json({ error: "Cannot read DB schema" });
-
     const colNames = cols.map((c) => c.Field);
     const has = (col) => colNames.includes(col);
 
-    // Build SELECT list based on actual columns
     const selectParts = [
       has("order_group_id") ? "po.order_group_id AS order_id" : "po.order_id AS order_id",
-      has("name")           ? "po.name"        : "NULL AS name",
-      has("email")          ? "po.email"       : "NULL AS email",
-      has("phone")          ? "po.phone"       : "NULL AS phone",
-      has("address")        ? "po.address"     : "NULL AS address",
-      has("total_price")    ? "po.total_price" : "0 AS total_price",
-      has("order_date")     ? "po.order_date"  : "NULL AS order_date",
-      has("payment_mode")   ? "po.payment_mode": "'COD' AS payment_mode",
+      has("name")           ? "po.name"         : "NULL AS name",
+      has("email")          ? "po.email"        : "NULL AS email",
+      has("phone")          ? "po.phone"        : "NULL AS phone",
+      has("address")        ? "po.address"      : "NULL AS address",
+      has("total_price")    ? "po.total_price"  : "0 AS total_price",
+      has("order_date")     ? "po.order_date"   : "NULL AS order_date",
+      has("payment_mode")   ? "po.payment_mode" : "'COD' AS payment_mode",
     ];
 
     const groupId = has("order_group_id") ? "po.order_group_id" : "po.order_id";
-
     const groupParts = [
       groupId,
-      has("name")        ? "po.name"        : "",
-      has("email")       ? "po.email"       : "",
-      has("phone")       ? "po.phone"       : "",
-      has("address")     ? "po.address"     : "",
-      has("total_price") ? "po.total_price" : "",
-      has("order_date")  ? "po.order_date"  : "",
-      has("payment_mode")? "po.payment_mode": "",
+      has("name")         ? "po.name"         : "",
+      has("email")        ? "po.email"        : "",
+      has("phone")        ? "po.phone"        : "",
+      has("address")      ? "po.address"      : "",
+      has("total_price")  ? "po.total_price"  : "",
+      has("order_date")   ? "po.order_date"   : "",
+      has("payment_mode") ? "po.payment_mode" : "",
     ].filter(Boolean).join(", ");
-      const customerId = req.query.customer_id;
-    const whereClause = customerId
-      ? `WHERE po.customer_id = ${db.escape(customerId)}`
-      : "";
+
+    const whereClause = `WHERE po.customer_id = ${db.escape(customerId)}`;  // ← FIXED: always filter
+
     const sql = `
       SELECT 
         ${selectParts.join(",\n        ")},
