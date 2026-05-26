@@ -39,10 +39,10 @@ const Orders = () => {
         return;
       }
 
-      const res = await axios.get(`/get-orders/${user_id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-        params: { customer_id: user_id },
-      });
+      const res = await axios.get(`/get-orders`, {
+  headers: { Authorization: `Bearer ${token}` },
+  params: { customer_id: user_id },
+});
 
       console.log("[Orders] Response:", res.data);
       setOrders(res.data.orders || []);
